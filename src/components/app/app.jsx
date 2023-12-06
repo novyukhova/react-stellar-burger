@@ -1,11 +1,9 @@
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
 import { AppHeader } from "../app-header/app-header";
 import { useEffect, useState } from "react";
 import { getIngredients } from "../../utils/api";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { Modal } from "../modal/modal";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);

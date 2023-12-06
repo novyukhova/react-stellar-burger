@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useCallback } from "react";
+import styles from "./modal-overlay.module.css";
 
 function ModalOverlay({ onClick, children }) {
   const onClickCallback = useCallback(
@@ -7,21 +8,7 @@ function ModalOverlay({ onClick, children }) {
     [onClick]
   );
   return (
-    <section
-      style={{
-        backgroundColor: "rgba(0,0,0,.5)",
-        display: "flex",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        left: 0,
-        position: "fixed",
-        top: 0,
-        transition: "visibility .5s,opacity .5s",
-        width: "100%",
-      }}
-      onClick={onClickCallback}
-    >
+    <section className={styles.overlay} onClick={onClickCallback}>
       {children}
     </section>
   );

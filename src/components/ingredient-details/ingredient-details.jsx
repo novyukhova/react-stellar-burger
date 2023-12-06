@@ -1,4 +1,5 @@
 import { ingredientPropType } from "../../utils/prop-types";
+import styles from "./ingredient-details.module.css";
 
 function IngredientDetails({ ingredient }) {
   const nutritionFacts = [
@@ -8,40 +9,22 @@ function IngredientDetails({ ingredient }) {
     { name: "Углеводы, г", value: ingredient.carbohydrates },
   ];
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div className={styles.details}>
       <img
         src={ingredient.image_large}
         alt={ingredient.name}
         className="pb-4 pr-5 pl-5"
       />
-      <h3
-        className="pb-8 text text_type_main-medium"
-        style={{
-          margin: 0,
-        }}
-      >
+      <h3 className={`${styles.text} pb-8 text text_type_main-medium`}>
         {ingredient.name}
       </h3>
       <ul
-        style={{
-          listStyle: "none",
-          paddingLeft: 0,
-          display: "flex",
-          gap: "20px",
-          color: "#8585AD",
-        }}
-        className="text text_type_main-default pb-5"
+        className={`${styles["nutrition-facts"]} text text_type_main-default text_color_inactive pb-5`}
       >
         {nutritionFacts.map((fact) => (
-          <li key={fact.name} style={{ textAlign: "center" }}>
-            <p style={{ margin: 0 }}>{fact.name}</p>
-            <p style={{ margin: 0 }} className="text text_type_digits-default">
+          <li key={fact.name} className={styles["nutrition-fact"]}>
+            <p className={styles.text}>{fact.name}</p>
+            <p className={`${styles.text} text text_type_digits-default`}>
               {fact.value}
             </p>
           </li>

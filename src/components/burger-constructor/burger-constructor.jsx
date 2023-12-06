@@ -10,21 +10,13 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import styles from "./burger-constructor.module.css";
 
 function BurgerConstructor({ bun, ingredients }) {
   const [orderDetailsIsOpen, setOrderDetailsIsOpen] = useState(false);
   return (
     <>
-      <ul
-        style={{
-          listStyle: "none",
-          margin: "0",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-        }}
-        className="pt-25 pl-4 pb-10"
-      >
+      <ul className={`${styles["ingredient-list"]} pt-25 pl-4 pb-10`}>
         {bun && (
           <li className="pl-8 pl-4 pr-4">
             <ConstructorElement
@@ -36,31 +28,11 @@ function BurgerConstructor({ bun, ingredients }) {
             />
           </li>
         )}
-        <li
-          style={{
-            maxHeight: "calc(100vh - 88px - 196px - 252px)",
-            overflow: "auto",
-          }}
-          className="custom-scroll"
-        >
-          <ul
-            style={{
-              listStyle: "none",
-              margin: "0",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              padding: "0",
-            }}
-          >
+        <li className={`${styles["ingredient-list__filling"]} custom-scroll`}>
+          <ul className={styles["filling-list"]}>
             {ingredients.map((ingredient) => (
               <li
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
-                className="pr-4"
+                className={`${styles["filling-list__item"]} pr-4`}
                 key={ingredient._id}
               >
                 <DragIcon type="primary" />
@@ -85,21 +57,8 @@ function BurgerConstructor({ bun, ingredients }) {
           </li>
         )}
       </ul>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
-        }}
-        className="pr-4"
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-          className="pr-10"
-        >
+      <div className={`${styles["order-info"]} pr-4`}>
+        <div className={`${styles.price} pr-10`}>
           <p className="text text_type_digits-medium pr-1">610</p>
           <CurrencyIcon type="primary" />
         </div>

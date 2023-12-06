@@ -4,14 +4,17 @@ import { menuItemPropType } from "../../utils/prop-types";
 
 function MenuItem({ item: { icon, isActive, href, text } }) {
   const Icon = Icons[icon] || Icons["CloseIcon"];
-  const classNames = ["text", "text_type_main-default"];
-  if (!isActive) {
-    classNames.push("text_color_inactive");
-  }
+
   return (
     <a href={href} className={styles["menu-item"]}>
       <Icon type={isActive ? "primary" : "secondary"} />{" "}
-      <span className={classNames.join(" ")}>{text}</span>
+      <span
+        className={`text text_type_main-default ${
+          isActive ? "" : "text_color_inactive"
+        }`}
+      >
+        {text}
+      </span>
     </a>
   );
 }

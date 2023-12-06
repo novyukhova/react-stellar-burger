@@ -2,15 +2,15 @@ import { MenuItem } from "../menu-item/menu-item";
 import PropTypes from "prop-types";
 import { menuItemPropType } from "../../utils/prop-types";
 
-import style from "./menu.module.css";
+import styles from "./menu.module.css";
 
 function Menu({ align, items }) {
   return (
-    <nav className={style.menu}>
+    <nav className={styles.menu}>
       <ul
         className={
-          style.list +
-          (align === "right" ? " " + style["list_align_right"] : "")
+          styles.list +
+          (align === "right" ? " " + styles["list_align_right"] : "")
         }
       >
         {items.map((item) => (

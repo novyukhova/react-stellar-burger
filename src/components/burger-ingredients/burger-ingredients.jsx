@@ -9,6 +9,7 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import styles from "./burger-ingredients.module.css";
 
 const ingredientTypes = [
   { id: "bun", name: "Булки" },
@@ -21,44 +22,24 @@ function BurgerIngredients({ ingredients }) {
   const [currentIngredient, setCurrentIngredient] = useState(null);
   return (
     <>
-      <div style={{ display: "flex" }} className="pb-10">
+      <div className={`${styles.tabs} pb-10`}>
         {ingredientTypes.map((x) => (
           <Tab value={x.id} active={type === x.id} onClick={setType} key={x.id}>
             {x.name}
           </Tab>
         ))}
       </div>
-      <div
-        style={{ maxHeight: "calc(100vh - 88px - 196px)", overflow: "auto" }}
-        className="custom-scroll"
-      >
+      <div className={`${styles.ingredients} custom-scroll`}>
         {ingredientTypes.map((x) => (
           <div key={x.id}>
             <h2 className="text text_type_main-medium pb-6">{x.name}</h2>
-            <ul
-              style={{
-                listStyle: "none",
-                margin: "0",
-                display: "grid",
-                gridTemplateColumns: "repeat(2,272px)",
-                gridTemplateRows: "repeat(auto-fit,208px)",
-                justifyContent: "center",
-                rowGap: "32px",
-                columnGap: "24px",
-              }}
-              className="pl-4 pb-10"
-            >
+            <ul className={`${styles["ingredient-list"]} pl-4 pb-10`}>
               {ingredients
                 .filter((ingredient) => ingredient.type === x.id)
                 .map((ingredient) => (
                   <li
                     key={ingredient._id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      position: "relative",
-                    }}
+                    className={styles["ingredient-list__item"]}
                     onClick={() => setCurrentIngredient(ingredient)}
                   >
                     <Counter count={1} size="default" />
@@ -67,22 +48,13 @@ function BurgerIngredients({ ingredients }) {
                       alt={ingredient.name}
                       className="pl-4 pr-4"
                     />
-                    <span
-                      className="pt-1"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <p
-                        className="text text_type_digits-default pr-1"
-                        style={{ display: "inline" }}
-                      >
+                    <p className={`${styles.price} pt-1`}>
+                      <span className="text text_type_digits-default pr-1">
                         {ingredient.price}
-                      </p>
+                      </span>
                       <CurrencyIcon type="primary" />
-                    </span>
-                    <p
-                      className="text text_type_main-default pt-1"
-                      style={{ textAlign: "center" }}
-                    >
+                    </p>
+                    <p className="text text_type_main-default pt-1">
                       {ingredient.name}
                     </p>
                   </li>

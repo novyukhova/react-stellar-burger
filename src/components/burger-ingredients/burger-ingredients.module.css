@@ -1,0 +1,30 @@
+.tabs {
+  display: flex;
+}
+
+.ingredients {
+  max-height: calc((100vh - 88px) - 196px);
+  overflow: auto;
+}
+
+.ingredient-list {
+  list-style: none;
+  margin: 0px;
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  grid-template-rows: repeat(auto-fit, 208px);
+  justify-content: center;
+  gap: 32px 24px;
+}
+
+.ingredient-list__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
