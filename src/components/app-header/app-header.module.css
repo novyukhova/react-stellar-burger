@@ -1,0 +1,12 @@
+.app-header {
+    background-color: #1C1C21;
+}
+
+.app-header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: calc(1920px - 2*320px);
+    height: 88px;
+}
