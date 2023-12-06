@@ -8,6 +8,7 @@ function OrderDetails(props) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        paddingTop: "56px",
       }}
     >
       <h3 className="text text_type_digits-large pb-8">{props.id}</h3>

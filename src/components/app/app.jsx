@@ -18,12 +18,7 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <div>
-        <main
-          className={styles.app__main + " pb-10"}
-          style={{
-            maxHeight: "70vh",
-          }}
-        >
+        <main className={styles.app__main}>
           <section className="pr-10">
             <h1 className="text text_type_main-large pt-10 pb-5">
               Соберите бургер

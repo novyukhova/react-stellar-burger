@@ -29,7 +29,7 @@ function BurgerIngredients({ ingredients }) {
         ))}
       </div>
       <div
-        style={{ maxHeight: "664px", overflow: "auto" }}
+        style={{ maxHeight: "calc(100vh - 88px - 196px)", overflow: "auto" }}
         className="custom-scroll"
       >
         {ingredientTypes.map((x) => (

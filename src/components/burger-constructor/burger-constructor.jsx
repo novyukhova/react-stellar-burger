@@ -37,7 +37,10 @@ function BurgerConstructor({ bun, ingredients }) {
           </li>
         )}
         <li
-          style={{ maxHeight: "464px", overflow: "auto" }}
+          style={{
+            maxHeight: "calc(100vh - 88px - 196px - 252px)",
+            overflow: "auto",
+          }}
           className="custom-scroll"
         >
           <ul
@@ -112,7 +115,7 @@ function BurgerConstructor({ bun, ingredients }) {
       {orderDetailsIsOpen &&
         createPortal(
           <Modal onClose={() => setOrderDetailsIsOpen(false)}>
-            <OrderDetails id="dddd" />
+            <OrderDetails id="034536" />
           </Modal>,
           document.body
         )}
