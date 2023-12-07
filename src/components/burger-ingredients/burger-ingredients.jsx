@@ -10,6 +10,9 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { currentIngredientChanged } from "../../services/actions";
+import { useDrag } from "react-dnd";
 
 const ingredientTypes = [
   { id: "bun", name: "Булки" },
@@ -19,7 +22,9 @@ const ingredientTypes = [
 
 function BurgerIngredients({ ingredients }) {
   const [type, setType] = useState("bun");
-  const [currentIngredient, setCurrentIngredient] = useState(null);
+  const currentIngredient = useSelector((x) => x.currentIngredient);
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className={`${styles.tabs} pb-10`}>
@@ -37,27 +42,10 @@ function BurgerIngredients({ ingredients }) {
               {ingredients
                 .filter((ingredient) => ingredient.type === x.id)
                 .map((ingredient) => (
-                  <li
+                  <BurgerIngredient
                     key={ingredient._id}
-                    className={styles["ingredient-list__item"]}
-                    onClick={() => setCurrentIngredient(ingredient)}
-                  >
-                    <Counter count={1} size="default" />
-                    <img
-                      src={ingredient.image}
-                      alt={ingredient.name}
-                      className="pl-4 pr-4"
-                    />
-                    <p className={`${styles.price} pt-1`}>
-                      <span className="text text_type_digits-default pr-1">
-                        {ingredient.price}
-                      </span>
-                      <CurrencyIcon type="primary" />
-                    </p>
-                    <p className="text text_type_main-default pt-1">
-                      {ingredient.name}
-                    </p>
-                  </li>
+                    ingredient={ingredient}
+                  />
                 ))}
             </ul>
           </div>
@@ -66,7 +54,7 @@ function BurgerIngredients({ ingredients }) {
       {currentIngredient &&
         createPortal(
           <Modal
-            onClose={() => setCurrentIngredient(null)}
+            onClose={() => dispatch(currentIngredientChanged(null))}
             title="Детали ингредиента"
           >
             <IngredientDetails ingredient={currentIngredient} />
@@ -80,5 +68,31 @@ function BurgerIngredients({ ingredients }) {
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType),
 };
+
+function BurgerIngredient({ ingredient }) {
+  const dispatch = useDispatch();
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+  });
+
+  return (
+    <li
+      className={styles["ingredient-list__item"]}
+      onClick={() => dispatch(currentIngredientChanged(ingredient))}
+      ref={dragRef}
+    >
+      <Counter count={1} size="default" />
+      <img src={ingredient.image} alt={ingredient.name} className="pl-4 pr-4" />
+      <p className={`${styles.price} pt-1`}>
+        <span className="text text_type_digits-default pr-1">
+          {ingredient.price}
+        </span>
+        <CurrencyIcon type="primary" />
+      </p>
+      <p className="text text_type_main-default pt-1">{ingredient.name}</p>
+    </li>
+  );
+}
 
 export { BurgerIngredients };
