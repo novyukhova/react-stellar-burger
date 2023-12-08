@@ -1,0 +1,38 @@
+.ingredient-list {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ingredient-list__filling {
+  max-height: calc(((100vh - 88px) - 196px) - 252px);
+  overflow: auto;
+}
+
+.filling-list {
+  list-style: none;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0px;
+}
+
+.filling-list__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-info {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
