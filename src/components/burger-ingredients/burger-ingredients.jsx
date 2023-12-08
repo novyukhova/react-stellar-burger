@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import {
   Tab,
@@ -24,6 +24,20 @@ function BurgerIngredients({ ingredients }) {
   const [type, setType] = useState("bun");
   const currentIngredient = useSelector((x) => x.currentIngredient);
   const dispatch = useDispatch();
+  const orderedBun = useSelector((x) => x.order.bun);
+  const orderedFillings = useSelector((x) => x.order.fillings);
+  const fillingCountsByIngredientId = useMemo(
+    () =>
+      orderedFillings.reduce((c, f) => {
+        if (c[f.ingredient._id]) {
+          c[f.ingredient._id]++;
+        } else {
+          c[f.ingredient._id] = 1;
+        }
+        return c;
+      }, {}),
+    [orderedFillings]
+  );
 
   return (
     <>
@@ -45,6 +59,13 @@ function BurgerIngredients({ ingredients }) {
                   <BurgerIngredient
                     key={ingredient._id}
                     ingredient={ingredient}
+                    count={
+                      ingredient.type === "bun"
+                        ? orderedBun && orderedBun._id === ingredient._id
+                          ? 1
+                          : 0
+                        : fillingCountsByIngredientId[ingredient._id]
+                    }
                   />
                 ))}
             </ul>
@@ -69,7 +90,7 @@ BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType),
 };
 
-function BurgerIngredient({ ingredient }) {
+function BurgerIngredient({ ingredient, count }) {
   const dispatch = useDispatch();
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -82,7 +103,7 @@ function BurgerIngredient({ ingredient }) {
       onClick={() => dispatch(currentIngredientChanged(ingredient))}
       ref={dragRef}
     >
-      <Counter count={1} size="default" />
+      {count > 0 && <Counter count={count} size="default" />}
       <img src={ingredient.image} alt={ingredient.name} className="pl-4 pr-4" />
       <p className={`${styles.price} pt-1`}>
         <span className="text text_type_digits-default pr-1">

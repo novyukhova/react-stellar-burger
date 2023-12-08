@@ -17,13 +17,26 @@ import {
 } from "../../services/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 
 function BurgerConstructor() {
   const orderDetailsIsOpen = useSelector((x) => x.orderDetailsIsOpen);
   const bun = useSelector((x) => x.order.bun);
   const fillings = useSelector((x) => x.order.fillings);
   const dispatch = useDispatch();
+
+  const totalPrice = useMemo(
+    () =>
+      2 * (bun?.price ?? 0) +
+      (!fillings.length
+        ? 0
+        : fillings.reduce((sum, currentFilling) => {
+            return currentFilling.ingredient.price
+              ? sum + currentFilling.ingredient.price
+              : sum;
+          }, 0)),
+    [fillings, bun]
+  );
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -74,7 +87,7 @@ function BurgerConstructor() {
       </ul>
       <div className={`${styles["order-info"]} pr-4`}>
         <div className={`${styles.price} pr-10`}>
-          <p className="text text_type_digits-medium pr-1">610</p>
+          <p className="text text_type_digits-medium pr-1">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button
