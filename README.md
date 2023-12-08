@@ -6,4 +6,4 @@
 
 ## О проекте
 
-В проекте использованы технологии: HTML5, CSS, JS, React, Webpack, CSS Modules.
+В проекте использованы технологии: HTML5, CSS, JS, React, Webpack, CSS Modules, Redux.

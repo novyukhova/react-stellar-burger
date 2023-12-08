@@ -5,6 +5,7 @@
 .ingredients {
   max-height: calc((100vh - 88px) - 196px);
   overflow: auto;
+  position: relative;
 }
 
 .ingredient-list {
