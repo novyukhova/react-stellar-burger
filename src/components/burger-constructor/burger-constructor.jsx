@@ -20,7 +20,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useRef, useMemo } from "react";
 
 function BurgerConstructor() {
-  const orderDetailsIsOpen = useSelector((x) => x.orderDetailsIsOpen);
+  const orderDetailsIsOpen = useSelector((x) => x.order.orderDetailsIsOpen);
   const bun = useSelector((x) => x.order.bun);
   const fillings = useSelector((x) => x.order.fillings);
   const dispatch = useDispatch();

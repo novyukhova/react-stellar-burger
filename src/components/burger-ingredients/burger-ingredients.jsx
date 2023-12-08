@@ -22,7 +22,7 @@ const ingredientTypes = [
 
 function BurgerIngredients({ ingredients }) {
   const [type, setType] = useState("bun");
-  const currentIngredient = useSelector((x) => x.currentIngredient);
+  const currentIngredient = useSelector((x) => x.ingredients.currentIngredient);
   const dispatch = useDispatch();
   const orderedBun = useSelector((x) => x.order.bun);
   const orderedFillings = useSelector((x) => x.order.fillings);
