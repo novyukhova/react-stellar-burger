@@ -2,17 +2,17 @@ import { createOrder as apiCreateOrder } from "../../utils/api";
 
 const ORDER_ACCEPTED = "ORDER_ACCEPTED";
 
-function orderAccepted(orderId) {
+function orderAccepted(order) {
   return {
     type: ORDER_ACCEPTED,
-    orderId,
+    order,
   };
 }
 
 function createOrder(ingredientsId) {
   return (dispatch) =>
     apiCreateOrder(ingredientsId)
-      .then((res) => dispatch(orderAccepted(res.order.number)))
+      .then((res) => dispatch(orderAccepted(res.order)))
       .catch(console.error);
 }
 

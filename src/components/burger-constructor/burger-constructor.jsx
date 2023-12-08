@@ -27,7 +27,7 @@ function BurgerConstructor() {
   const ingredientsId = (bun ? [bun._id] : []).concat(
     fillings.map((x) => x.ingredient._id)
   );
-  const orderId = useSelector((x) => x.order.id);
+  const orderId = useSelector((x) => x.order.createdOrder?.number);
 
   const totalPrice = useMemo(
     () =>

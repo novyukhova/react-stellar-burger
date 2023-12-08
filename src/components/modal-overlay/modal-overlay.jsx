@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useCallback } from "react";
 import styles from "./modal-overlay.module.css";
 
 function ModalOverlay({ onClick, children }) {
