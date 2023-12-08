@@ -21,3 +21,8 @@ export const menuItemPropType = PropTypes.shape({
   href: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
 });
+
+export const fillingPropType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  ingredient: ingredientPropType,
+});

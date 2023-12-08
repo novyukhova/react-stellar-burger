@@ -3,12 +3,13 @@ import { useCallback } from "react";
 import styles from "./modal-overlay.module.css";
 
 function ModalOverlay({ onClick, children }) {
-  const onClickCallback = useCallback(
-    (event) => event.currentTarget === event.target && onClick && onClick(),
-    [onClick]
-  );
   return (
-    <section className={styles.overlay} onClick={onClickCallback}>
+    <section
+      className={styles.overlay}
+      onClick={(event) =>
+        event.currentTarget === event.target && onClick && onClick()
+      }
+    >
       {children}
     </section>
   );

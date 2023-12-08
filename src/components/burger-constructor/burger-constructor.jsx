@@ -4,7 +4,6 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { createPortal } from "react-dom";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
@@ -18,6 +17,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef, useMemo } from "react";
+import { fillingPropType } from "../../utils/prop-types";
 
 function BurgerConstructor() {
   const orderDetailsIsOpen = useSelector((x) => x.order.orderDetailsIsOpen);
@@ -62,7 +62,7 @@ function BurgerConstructor() {
         {bun && (
           <li className="pl-8 pl-4 pr-4">
             <ConstructorElement
-              text={bun.name}
+              text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image_mobile}
               type="top"
@@ -80,7 +80,7 @@ function BurgerConstructor() {
         {bun && (
           <li className="pl-8">
             <ConstructorElement
-              text={bun.name}
+              text={`${bun.name} (низ)`}
               price={bun.price}
               thumbnail={bun.image_mobile}
               type="bottom"
@@ -103,13 +103,11 @@ function BurgerConstructor() {
           Оформить заказ
         </Button>
       </div>
-      {orderDetailsIsOpen &&
-        createPortal(
-          <Modal onClose={() => dispatch(orderDetailsClosed())}>
-            <OrderDetails id={orderId} />
-          </Modal>,
-          document.body
-        )}
+      {orderDetailsIsOpen && (
+        <Modal onClose={() => dispatch(orderDetailsClosed())}>
+          <OrderDetails id={orderId} />
+        </Modal>
+      )}
     </>
   );
 }
@@ -156,5 +154,9 @@ function BurgerFilling({ filling }) {
     </li>
   );
 }
+
+BurgerFilling.propTypes = {
+  filling: fillingPropType,
+};
 
 export { BurgerConstructor };

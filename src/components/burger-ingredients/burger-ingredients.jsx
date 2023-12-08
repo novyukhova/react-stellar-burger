@@ -1,5 +1,4 @@
 import { useState, useMemo, useRef } from "react";
-import { createPortal } from "react-dom";
 import {
   Tab,
   CurrencyIcon,
@@ -8,7 +7,7 @@ import {
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes, { object } from "prop-types";
+import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { currentIngredientChanged } from "../../services/actions";
@@ -20,7 +19,8 @@ const ingredientTypes = [
   { id: "main", name: "Начинки" },
 ];
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
+  const ingredients = useSelector((store) => store.ingredients.allIngredients);
   const [type, setType] = useState("bun");
   const currentIngredient = useSelector((x) => x.ingredients.currentIngredient);
   const dispatch = useDispatch();
@@ -86,23 +86,17 @@ function BurgerIngredients({ ingredients }) {
           </div>
         ))}
       </div>
-      {currentIngredient &&
-        createPortal(
-          <Modal
-            onClose={() => dispatch(currentIngredientChanged(null))}
-            title="Детали ингредиента"
-          >
-            <IngredientDetails ingredient={currentIngredient} />
-          </Modal>,
-          document.body
-        )}
+      {currentIngredient && (
+        <Modal
+          onClose={() => dispatch(currentIngredientChanged(null))}
+          title="Детали ингредиента"
+        >
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
     </>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType),
-};
 
 function BurgerIngredient({ ingredient, count }) {
   const dispatch = useDispatch();
@@ -129,5 +123,10 @@ function BurgerIngredient({ ingredient, count }) {
     </li>
   );
 }
+
+BurgerIngredient.propTypes = {
+  ingredient: ingredientPropType,
+  count: PropTypes.number,
+};
 
 export { BurgerIngredients };

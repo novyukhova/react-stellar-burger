@@ -9,7 +9,7 @@ function OrderDetails(props) {
       <p className={`${styles.text} text text_type_main-medium pb-15`}>
         идентификатор заказа
       </p>
-      <img src={doneIcon} alt="" className={`${styles.icon} pb-15`} />
+      <img src={doneIcon} alt="галочка" className={`${styles.icon} pb-15`} />
       <p className={`${styles.text} text text_type_main-default pb-2`}>
         Ваш заказ начали готовить
       </p>

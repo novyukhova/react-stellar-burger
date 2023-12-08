@@ -11,9 +11,9 @@ function orderAccepted(orderId) {
 
 function createOrder(ingredientsId) {
   return (dispatch) =>
-    apiCreateOrder(ingredientsId).then((res) =>
-      dispatch(orderAccepted(res.order.number))
-    );
+    apiCreateOrder(ingredientsId)
+      .then((res) => dispatch(orderAccepted(res.order.number)))
+      .catch(console.error);
 }
 
 const ORDER_DETAILS_CLOSED = "ORDER_DETAILS_CLOSED";
