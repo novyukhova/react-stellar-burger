@@ -23,7 +23,7 @@ function OrderDetails(props) {
 }
 
 OrderDetails.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export { OrderDetails };

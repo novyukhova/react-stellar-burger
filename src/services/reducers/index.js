@@ -16,6 +16,7 @@ const initialState = {
     bun: null,
     fillings: [],
     nextFillingId: 1,
+    id: null,
   },
 };
 
@@ -42,6 +43,10 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         orderDetailsIsOpen: true,
+        order: {
+          ...state.order,
+          id: action.orderId,
+        },
       };
     case ORDER_DETAILS_CLOSED:
       return {

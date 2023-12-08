@@ -1,11 +1,10 @@
 import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
 import { useEffect } from "react";
-import { getIngredients } from "../../utils/api";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { useDispatch, useSelector } from "react-redux";
-import { ingredientsLoaded } from "../../services/actions";
+import { loadIngredients } from "../../services/actions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -14,9 +13,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getIngredients()
-      .then((x) => dispatch(ingredientsLoaded(x)))
-      .catch((error) => console.error(error));
+    dispatch(loadIngredients());
   }, [dispatch]);
   return (
     <div className={styles.app}>

@@ -1,3 +1,5 @@
+import { createOrder as apiCreateOrder, getIngredients } from "../../utils/api";
+
 const INGREDIENTS_LOADED = "INGREDIENTS_LOADED";
 
 function ingredientsLoaded(ingredients) {
@@ -5,6 +7,13 @@ function ingredientsLoaded(ingredients) {
     type: INGREDIENTS_LOADED,
     ingredients,
   };
+}
+
+function loadIngredients() {
+  return (dispatch) =>
+    getIngredients()
+      .then((x) => dispatch(ingredientsLoaded(x)))
+      .catch(console.error);
 }
 
 const CURRENT_INGREDIENT_CHANGED = "CURRENT_INGREDIENT_CHANGED";
@@ -23,6 +32,13 @@ function orderAccepted(orderId) {
     type: ORDER_ACCEPTED,
     orderId,
   };
+}
+
+function createOrder(ingredientsId) {
+  return (dispatch) =>
+    apiCreateOrder(ingredientsId).then((res) =>
+      dispatch(orderAccepted(res.order.number))
+    );
 }
 
 const ORDER_DETAILS_CLOSED = "ORDER_DETAILS_CLOSED";
@@ -76,4 +92,6 @@ export {
   deletedFillingInOrder,
   FILLING_MOVED,
   fillingMoved,
+  createOrder,
+  loadIngredients,
 };

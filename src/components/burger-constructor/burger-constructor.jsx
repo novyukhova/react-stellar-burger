@@ -9,11 +9,11 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 import {
-  orderAccepted,
   orderDetailsClosed,
   newIngredientInOrder,
   deletedFillingInOrder,
   fillingMoved,
+  createOrder,
 } from "../../services/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
@@ -24,6 +24,10 @@ function BurgerConstructor() {
   const bun = useSelector((x) => x.order.bun);
   const fillings = useSelector((x) => x.order.fillings);
   const dispatch = useDispatch();
+  const ingredientsId = (bun ? [bun._id] : []).concat(
+    fillings.map((x) => x.ingredient._id)
+  );
+  const orderId = useSelector((x) => x.order.id);
 
   const totalPrice = useMemo(
     () =>
@@ -94,7 +98,7 @@ function BurgerConstructor() {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={() => dispatch(orderAccepted("034536"))}
+          onClick={() => dispatch(createOrder(ingredientsId))}
         >
           Оформить заказ
         </Button>
@@ -102,7 +106,7 @@ function BurgerConstructor() {
       {orderDetailsIsOpen &&
         createPortal(
           <Modal onClose={() => dispatch(orderDetailsClosed())}>
-            <OrderDetails id="034536" />
+            <OrderDetails id={orderId} />
           </Modal>,
           document.body
         )}
