@@ -1,0 +1,46 @@
+.page {
+  display: flex;
+  justify-content: space-between;
+  margin: 120px auto;
+  max-width: calc(1920px - (340px * 2));
+  gap: 60px;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 320px;
+}
+
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  text-decoration: none;
+  min-height: 64px;
+}
+
+.active__link {
+  color: inherit;
+  text-decoration: none;
+  min-height: 64px;
+  padding-top: 17px;
+}
+
+.information {
+  max-width: calc(1920px - 320px - 40px - 2 * 340px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonArea {
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+}

@@ -1,36 +1,72 @@
 import styles from "./app.module.css";
 import { AppHeader } from "../app-header/app-header";
-import { useEffect } from "react";
-import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
-import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { useDispatch } from "react-redux";
-import { loadIngredients } from "../../services/actions";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HomePage } from "../../pages/home";
+import { LoginPage } from "../../pages/login";
+import { RegisterPage } from "../../pages/register";
+import { ForgotPasswordPage } from "../../pages/forgot-password";
+import { ResetPasswordPage } from "../../pages/reset-password";
+import { ProfilePage } from "../../pages/profile";
+import { IngredientPage } from "../../pages/ingredients";
+import { NotFoundPage } from "../../pages/404";
+import { ProtectedRouteElement } from "../protected-route/protected-route";
+import { OrdersPage } from "../../pages/orders";
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch]);
   return (
     <div className={styles.app}>
       <AppHeader />
-      <div>
-        <DndProvider backend={HTML5Backend}>
-          <main className={styles.app__main}>
-            <section className="pr-10">
-              <h1 className="text text_type_main-large pt-10 pb-5">
-                Соберите бургер
-              </h1>
-              <BurgerIngredients />
-            </section>
-            <section>
-              <BurgerConstructor />
-            </section>
-          </main>
-        </DndProvider>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/login"
+            element={
+              <ProtectedRouteElement
+                forbidAuthenticated={true}
+                element={<LoginPage />}
+              />
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <ProtectedRouteElement
+                forbidAuthenticated={true}
+                element={<RegisterPage />}
+              />
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <ProtectedRouteElement
+                forbidAuthenticated={true}
+                element={<ForgotPasswordPage />}
+              />
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <ProtectedRouteElement
+                forbidAuthenticated={true}
+                element={<ResetPasswordPage />}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRouteElement element={<ProfilePage />} />}
+          />
+          <Route
+            path="/profile/orders"
+            element={<ProtectedRouteElement element={<OrdersPage />} />}
+          />
+          <Route path="/ingredients/:id" element={<IngredientPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

@@ -88,7 +88,10 @@ function BurgerIngredients() {
       </div>
       {currentIngredient && (
         <Modal
-          onClose={() => dispatch(currentIngredientChanged(null))}
+          onClose={() => {
+            window.history.back();
+            dispatch(currentIngredientChanged(null));
+          }}
           title="Детали ингредиента"
         >
           <IngredientDetails ingredient={currentIngredient} />
@@ -108,7 +111,14 @@ function BurgerIngredient({ ingredient, count }) {
   return (
     <li
       className={styles["ingredient-list__item"]}
-      onClick={() => dispatch(currentIngredientChanged(ingredient))}
+      onClick={() => {
+        window.history.pushState(
+          {},
+          undefined,
+          `/ingredients/${ingredient._id}`
+        );
+        dispatch(currentIngredientChanged(ingredient));
+      }}
       ref={dragRef}
     >
       {count > 0 && <Counter count={count} size="default" />}

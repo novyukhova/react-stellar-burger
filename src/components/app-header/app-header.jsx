@@ -6,7 +6,7 @@ import styles from "./app-header.module.css";
 const menuItems = [
   [
     {
-      href: "#",
+      href: "/",
       icon: "BurgerIcon",
       isActive: true,
       text: "Конструктор",
@@ -19,7 +19,7 @@ const menuItems = [
   ],
   [
     {
-      href: "#",
+      href: "/profile",
       icon: "ProfileIcon",
       text: "Личный кабинет",
     },
