@@ -12,7 +12,7 @@ const menuItems = [
       text: "Конструктор",
     },
     {
-      href: "#",
+      href: "/feed",
       icon: "ListIcon",
       text: "Лента заказов",
     },

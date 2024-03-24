@@ -6,29 +6,6 @@
   gap: 60px;
 }
 
-.leftColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 320px;
-}
-
-.sideMenu {
-  display: flex;
-  flex-direction: column;
-}
-
-.link {
-  text-decoration: none;
-  min-height: 64px;
-}
-
-.active__link {
-  color: inherit;
-  text-decoration: none;
-  min-height: 64px;
-}
-
 .information {
   max-width: calc(1920px - 320px - 40px - 2 * 340px);
 }

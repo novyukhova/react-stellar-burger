@@ -8,9 +8,7 @@ import styles from "./profile.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { loadUser, saveUser } from "../services/actions/profile";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { logout } from "../services/actions/auth";
+import { ProfileMenu } from "../components/profile-menu/profile-menu";
 
 function ProfilePage() {
   const user = useSelector((x) => x.profile.user);
@@ -29,43 +27,7 @@ function ProfilePage() {
   return (
     <>
       <div className={styles.page}>
-        <div className={styles.leftColumn}>
-          <div className={styles.sideMenu}>
-            <NavLink to="/profile" className={styles.active__link}>
-              {({ isActive }) => {
-                return isActive ? (
-                  <h1 className="text text_type_main-medium">Профиль</h1>
-                ) : (
-                  <span className="text text_type_main-medium text_color_inactive">
-                    Профиль
-                  </span>
-                );
-              }}
-            </NavLink>
-            <NavLink to="/profile/orders" className={styles.active__link}>
-              {({ isActive }) =>
-                isActive ? (
-                  <h1 className="text text_type_main-medium">
-                    История заказов
-                  </h1>
-                ) : (
-                  <span className="text text_type_main-medium text_color_inactive">
-                    История заказов
-                  </span>
-                )
-              }
-            </NavLink>
-            <Link
-              className={`text text_type_main-medium text_color_inactive ${styles.link}`}
-              onClick={() => dispatch(logout())}
-            >
-              Выход
-            </Link>
-          </div>
-          <p className="text text_type_main-default text_color_inactive">
-            В этом разделе вы можете изменить свои персональные данные
-          </p>
-        </div>
+        <ProfileMenu description="В этом разделе вы можете изменить свои персональные данные" />
 
         <div className={styles.information}>
           <form className={styles.form}>

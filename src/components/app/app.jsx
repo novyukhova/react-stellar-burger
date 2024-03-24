@@ -15,8 +15,8 @@ import { OrdersPage } from "../../pages/orders";
 function App() {
   return (
     <div className={styles.app}>
-      <AppHeader />
       <Router>
+        <AppHeader />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
