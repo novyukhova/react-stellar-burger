@@ -1,8 +1,4 @@
-import {
-  ingredientsLoaded,
-  currentIngredientChanged,
-  loadIngredients,
-} from "./ingredients";
+import { ingredientsLoaded, loadIngredients } from "./ingredients";
 import {
   orderAccepted,
   orderDetailsClosed,
@@ -29,7 +25,6 @@ function loginPageOpened() {
 
 export {
   ingredientsLoaded,
-  currentIngredientChanged,
   loadIngredients,
   orderAccepted,
   orderDetailsClosed,

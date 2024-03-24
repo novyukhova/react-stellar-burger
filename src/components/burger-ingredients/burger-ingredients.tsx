@@ -4,14 +4,12 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import styles from "./burger-ingredients.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { currentIngredientChanged } from "../../services/actions";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { TCommonState } from "../../utils/types";
 import { TIngredient } from "../../utils/api";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ingredientTypes = [
   { id: "bun", name: "Булки" },
@@ -24,10 +22,6 @@ function BurgerIngredients() {
     (store: TCommonState) => store.ingredients.allIngredients
   );
   const [type, setType] = useState("bun");
-  const currentIngredient = useSelector(
-    (x: TCommonState) => x.ingredients.currentIngredient
-  );
-  const dispatch = useDispatch();
   const orderedBun = useSelector((x: TCommonState) => x.order.bun);
   const orderedFillings = useSelector((x: TCommonState) => x.order.fillings);
   const typesRef = useRef<Record<string, HTMLElement>>({});
@@ -95,17 +89,6 @@ function BurgerIngredients() {
           </div>
         ))}
       </div>
-      {currentIngredient && (
-        <Modal
-          onClose={() => {
-            window.history.back();
-            dispatch(currentIngredientChanged(null));
-          }}
-          title="Детали ингредиента"
-        >
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </>
   );
 }
@@ -117,7 +100,8 @@ function BurgerIngredient({
   ingredient: TIngredient;
   count: number;
 }) {
-  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: ingredient,
@@ -127,8 +111,9 @@ function BurgerIngredient({
     <li
       className={styles["ingredient-list__item"]}
       onClick={() => {
-        window.history.pushState({}, "", `/ingredients/${ingredient._id}`);
-        dispatch(currentIngredientChanged(ingredient));
+        navigate(`/ingredients/${ingredient._id}`, {
+          state: { background: location },
+        });
       }}
       ref={dragRef}
     >

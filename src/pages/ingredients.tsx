@@ -1,29 +1,13 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  loadIngredients,
-  currentIngredientChanged,
-} from "../services/actions/ingredients";
+import { useSelector } from "react-redux";
 import { IngredientDetails } from "../components/ingredient-details/ingredient-details";
 import styles from "./ingredients.module.css";
 import { TCommonState } from "../utils/types";
 
 function IngredientPage() {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { allIngredients, currentIngredient } = useSelector(
-    (x: TCommonState) => x.ingredients
-  );
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch]);
-  useEffect(() => {
-    const ingredient = allIngredients.find((x) => x._id === id);
-    if (ingredient) {
-      dispatch(currentIngredientChanged(ingredient));
-    }
-  }, [allIngredients, id, dispatch]);
+  const { allIngredients } = useSelector((x: TCommonState) => x.ingredients);
+  const currentIngredient = allIngredients.find((x) => x._id === id);
 
   return (
     <>

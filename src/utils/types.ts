@@ -33,7 +33,6 @@ type TAuthState = {
 
 type TIngredientState = {
   allIngredients: TIngredient[];
-  currentIngredient: TIngredient | null;
 };
 
 type TFilling = {
