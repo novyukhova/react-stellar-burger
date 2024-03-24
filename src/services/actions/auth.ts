@@ -131,6 +131,13 @@ function navigateToLogin(): TNavigateToLoginAction {
   };
 }
 
-export { sendRegisterForm, sendLoginForm, loggedOut, logout, navigateToLogin };
+export {
+  sendRegisterForm,
+  sendLoginForm,
+  loggedOut,
+  logout,
+  navigateToLogin,
+  loginSuccess,
+};
 
 export type { TAuthAction };

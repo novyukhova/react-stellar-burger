@@ -4,6 +4,9 @@ jest.mock("../../utils/cookie", () => ({
   getCookie: jest.fn(() => ""),
 }));
 import { getCookie } from "../../utils/cookie";
+import { login } from "../../utils/api";
+import { loggedOut, loginSuccess, navigateToLogin } from "../actions/auth";
+import { homeOpened, loginPageOpened } from "../actions";
 
 describe("authReducer", () => {
   it("should return the initial state", () => {
@@ -24,7 +27,7 @@ describe("authReducer", () => {
     });
   });
 
-  it("should set isAuthenticated on LOGIN_SUCCESS", () => {
+  it("should set isAuthenticated on loginSuccess", () => {
     expect(
       authReducer(
         {
@@ -32,7 +35,7 @@ describe("authReducer", () => {
           navigateHome: false,
           navigateToLogin: false,
         },
-        { type: "LOGIN_SUCCESS" }
+        loginSuccess()
       )
     ).toEqual({
       isAuthenticated: true,
@@ -41,7 +44,7 @@ describe("authReducer", () => {
     });
   });
 
-  it("should reset navigateHome on HOME_OPENED", () => {
+  it("should reset navigateHome on homeOpened", () => {
     expect(
       authReducer(
         {
@@ -49,7 +52,7 @@ describe("authReducer", () => {
           navigateHome: true,
           navigateToLogin: false,
         },
-        { type: "HOME_OPENED" }
+        homeOpened()
       )
     ).toEqual({
       isAuthenticated: true,
@@ -58,7 +61,7 @@ describe("authReducer", () => {
     });
   });
 
-  it("should set isAuthenticated false on LOGGED_OUT", () => {
+  it("should set isAuthenticated false on loggedOut", () => {
     expect(
       authReducer(
         {
@@ -66,7 +69,7 @@ describe("authReducer", () => {
           navigateHome: false,
           navigateToLogin: false,
         },
-        { type: "LOGGED_OUT" }
+        loggedOut()
       )
     ).toEqual({
       isAuthenticated: false,
@@ -75,7 +78,7 @@ describe("authReducer", () => {
     });
   });
 
-  it("should reset navigateToLogin on LOGIN_PAGE_OPENED", () => {
+  it("should reset navigateToLogin on loginPageOpened", () => {
     expect(
       authReducer(
         {
@@ -83,7 +86,7 @@ describe("authReducer", () => {
           navigateHome: false,
           navigateToLogin: true,
         },
-        { type: "LOGIN_PAGE_OPENED" }
+        loginPageOpened()
       )
     ).toEqual({
       isAuthenticated: false,
@@ -92,7 +95,7 @@ describe("authReducer", () => {
     });
   });
 
-  it("should set navigateToLogin on NAVIGATE_TO_LOGIN", () => {
+  it("should set navigateToLogin on navigateToLogin", () => {
     expect(
       authReducer(
         {
@@ -100,7 +103,7 @@ describe("authReducer", () => {
           navigateHome: false,
           navigateToLogin: false,
         },
-        { type: "NAVIGATE_TO_LOGIN" }
+        navigateToLogin()
       )
     ).toEqual({
       isAuthenticated: false,
