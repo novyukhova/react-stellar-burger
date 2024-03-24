@@ -1,4 +1,6 @@
+import { Dispatch } from "redux";
 import {
+  TUser,
   loadUser as apiLoadUser,
   saveUser as apiSaveUser,
 } from "../../utils/api";
@@ -6,7 +8,7 @@ import { loggedOut } from "./auth";
 
 const USER_LOADED = "USER_LOADED";
 
-function userLoaded(user) {
+function userLoaded(user: TUser) {
   return {
     type: USER_LOADED,
     user,
@@ -14,7 +16,7 @@ function userLoaded(user) {
 }
 
 function loadUser() {
-  return (dispatch) =>
+  return (dispatch: Dispatch) =>
     apiLoadUser()
       .then((res) => {
         dispatch(userLoaded(res.user));
@@ -26,8 +28,8 @@ function loadUser() {
       });
 }
 
-function saveUser(name, email) {
-  return (dispatch) =>
+function saveUser(name: string, email: string) {
+  return (dispatch: Dispatch) =>
     apiSaveUser({
       name: name,
       email: email,

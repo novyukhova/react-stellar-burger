@@ -110,7 +110,7 @@ function createOrder(ingredients: string[]): Promise<TOrderResponse> {
   });
 }
 
-function sendResetEmail(email: string): Promise<TMessageResponse> {
+function sendResetEmail(email: string): Promise<TApiResponse> {
   return request(`${baseUrl}/api/password-reset`, {
     method: "POST",
     headers: headers,
@@ -120,14 +120,7 @@ function sendResetEmail(email: string): Promise<TMessageResponse> {
   });
 }
 
-type TMessageResponse = {
-  message: string;
-} & TApiResponse;
-
-function resetPassword(
-  password: string,
-  token: string
-): Promise<TMessageResponse> {
+function resetPassword(password: string, token: string): Promise<TApiResponse> {
   return request(`${baseUrl}/api/password-reset/reset`, {
     method: "POST",
     headers: headers,
@@ -188,6 +181,7 @@ function logout(): Promise<TApiResponse> {
 
 type TApiResponse = {
   success: boolean;
+  message?: string;
 };
 
 function refreshToken(): Promise<TTokenResponse> {
@@ -243,4 +237,4 @@ export {
   saveUser,
   setTokens,
 };
-export type { TIngredient, TUser };
+export type { TIngredient, TUser, TOrder };

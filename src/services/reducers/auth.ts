@@ -10,7 +10,7 @@ const initialState = {
   navigateToLogin: false,
 };
 
-function authReducer(state = initialState, action) {
+function authReducer(state = initialState, action: { type: string }) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {

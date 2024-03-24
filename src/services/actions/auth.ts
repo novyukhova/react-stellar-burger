@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import {
   register as apiRegister,
   login as apiLogin,
@@ -13,8 +14,8 @@ const LOGIN_ERROR = "LOGIN_ERROR";
 const LOGGED_OUT = "LOGGED_OUT";
 const NAVIGATE_TO_LOGIN = "NAVIGATE_TO_LOGIN";
 
-function sendRegisterForm(name, email, password) {
-  return (dispatch) =>
+function sendRegisterForm(name: string, email: string, password: string) {
+  return (dispatch: Dispatch) =>
     apiRegister(name, email, password)
       .then((res) => {
         if (res.success) {
@@ -24,13 +25,17 @@ function sendRegisterForm(name, email, password) {
           setTokens(res.accessToken, res.refreshToken);
           return;
         }
-        dispatch(registerError(res.message));
+        dispatch(
+          registerError(
+            res.message ?? "Something went wrong. Please try again."
+          )
+        );
       })
       .catch(console.error);
 }
 
-function sendLoginForm(email, password) {
-  return (dispatch) =>
+function sendLoginForm(email: string, password: string) {
+  return (dispatch: Dispatch) =>
     apiLogin(email, password)
       .then((res) => {
         if (res.success) {
@@ -39,7 +44,9 @@ function sendLoginForm(email, password) {
           setTokens(res.accessToken, res.refreshToken);
           return;
         }
-        dispatch(loginError(res.message));
+        dispatch(
+          loginError(res.message ?? "Something went wrong. Please try again.")
+        );
       })
       .catch(console.error);
 }
@@ -50,7 +57,7 @@ function registered() {
   };
 }
 
-function registerError(message) {
+function registerError(message: string) {
   return {
     type: REGISTER_ERROR,
     message: message,
@@ -63,7 +70,7 @@ function loginSuccess() {
   };
 }
 
-function loginError(message) {
+function loginError(message: string) {
   return {
     type: LOGIN_ERROR,
     message: message,
@@ -77,7 +84,7 @@ function loggedOut() {
 }
 
 function logout() {
-  return (dispatch) =>
+  return (dispatch: Dispatch) =>
     apiLogout()
       .then(() => {
         dispatch(loggedOut());

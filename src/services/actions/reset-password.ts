@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import {
   sendResetEmail as apiSendResetEmail,
   resetPassword as apiResetPassword,
@@ -9,8 +10,8 @@ const PASSWORD_RESET_SUCCESS = "PASSWORD_RESET_SUCCESS";
 const PASSWORD_RESET_ERROR = "PASSWORD_RESET_ERROR";
 const RESET_PASSWORD_OPENED = "RESET_PASSWORD_OPENED";
 
-function sendResetEmail(email) {
-  return (dispatch) =>
+function sendResetEmail(email: string) {
+  return (dispatch: Dispatch) =>
     apiSendResetEmail(email)
       .then((res) => dispatch(resetEmailSent()))
       .catch(console.error);
@@ -28,15 +29,19 @@ function resetPasswordOpened() {
   };
 }
 
-function resetPassword(password, token) {
-  return (dispatch) =>
+function resetPassword(password: string, token: string) {
+  return (dispatch: Dispatch) =>
     apiResetPassword(password, token)
       .then((res) => {
         if (res.success) {
           dispatch(passwordResetSuccess());
           dispatch(navigateToLogin());
         }
-        dispatch(passwordResetError(res.message));
+        dispatch(
+          passwordResetError(
+            res.message ?? "Something went wrong. Try again later"
+          )
+        );
       })
       .catch(() =>
         dispatch(passwordResetError("Something went wrong. Try again later"))
@@ -49,7 +54,7 @@ function passwordResetSuccess() {
   };
 }
 
-function passwordResetError(message) {
+function passwordResetError(message: string) {
   return {
     type: PASSWORD_RESET_ERROR,
     message: message,

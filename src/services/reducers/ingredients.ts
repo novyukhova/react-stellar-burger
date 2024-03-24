@@ -4,7 +4,7 @@ const initialState = {
   allIngredients: [],
 };
 
-function ingredientsReducer(state = initialState, action) {
+function ingredientsReducer(state = initialState, action: { type: string }) {
   switch (action.type) {
     case INGREDIENTS_LOADED:
       return {

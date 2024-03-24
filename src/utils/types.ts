@@ -46,4 +46,4 @@ type TMenuItem = {
   text: string;
 };
 
-export type { TCommonState, TFilling, TMenuItem };
+export type { TCommonState, TFilling, TMenuItem, TOrderState };

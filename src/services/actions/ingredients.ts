@@ -1,8 +1,9 @@
-import { getIngredients } from "../../utils/api";
+import { Dispatch } from "redux";
+import { TIngredient, getIngredients } from "../../utils/api";
 
 const INGREDIENTS_LOADED = "INGREDIENTS_LOADED";
 
-function ingredientsLoaded(ingredients) {
+function ingredientsLoaded(ingredients: TIngredient[]) {
   return {
     type: INGREDIENTS_LOADED,
     ingredients,
@@ -10,7 +11,7 @@ function ingredientsLoaded(ingredients) {
 }
 
 function loadIngredients() {
-  return (dispatch) =>
+  return (dispatch: Dispatch) =>
     getIngredients()
       .then((x) => {
         dispatch(ingredientsLoaded(x));

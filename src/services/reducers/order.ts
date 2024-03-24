@@ -1,9 +1,11 @@
+import { TOrderState } from "../../utils/types";
 import {
   ORDER_ACCEPTED,
   ORDER_DETAILS_CLOSED,
   NEW_INGREDIENT_IN_ORDER,
   DELETED_FILLING_IN_ORDER,
   FILLING_MOVED,
+  TOrderAction,
 } from "../actions/order";
 
 const initialState = {
@@ -14,7 +16,7 @@ const initialState = {
   createdOrder: null,
 };
 
-function orderReducer(state = initialState, action) {
+function orderReducer(state: TOrderState = initialState, action: TOrderAction) {
   switch (action.type) {
     case ORDER_ACCEPTED:
       return {
