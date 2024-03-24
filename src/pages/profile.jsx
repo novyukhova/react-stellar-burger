@@ -24,6 +24,9 @@ function ProfilePage() {
     setEmail(user?.email ?? "");
   }, [user]);
 
+  const showButtons =
+    name !== user?.name || email !== user?.email || password !== "";
+
   return (
     <>
       <div className={styles.page}>
@@ -53,24 +56,26 @@ function ProfilePage() {
               onChange={(e) => setPassword(e.target.value)}
               extraClass="pb-6"
             />
-            <div className={styles.buttonArea}>
-              <Button
-                htmlType="button"
-                type="secondary"
-                size="medium"
-                onClick={() => dispatch(saveUser(name, email, password))}
-              >
-                Отмена
-              </Button>
-              <Button
-                htmlType="button"
-                type="primary"
-                size="medium"
-                onClick={() => dispatch(saveUser(name, email, password))}
-              >
-                Сохранить
-              </Button>
-            </div>
+            {showButtons && (
+              <div className={styles.buttonArea}>
+                <Button
+                  htmlType="button"
+                  type="secondary"
+                  size="medium"
+                  onClick={() => dispatch(loadUser())}
+                >
+                  Отмена
+                </Button>
+                <Button
+                  htmlType="button"
+                  type="primary"
+                  size="medium"
+                  onClick={() => dispatch(saveUser(name, email, password))}
+                >
+                  Сохранить
+                </Button>
+              </div>
+            )}
           </form>
         </div>
       </div>
