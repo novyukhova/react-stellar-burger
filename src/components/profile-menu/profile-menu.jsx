@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import styles from "./profile-menu.module.css";
 import { logout } from "../../services/actions/auth";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 function ProfileMenu({ description }) {
   const dispatch = useDispatch();
@@ -43,5 +44,9 @@ function ProfileMenu({ description }) {
     </div>
   );
 }
+
+ProfileMenu.propTypes = {
+  description: PropTypes.string.isRequired,
+};
 
 export { ProfileMenu };
