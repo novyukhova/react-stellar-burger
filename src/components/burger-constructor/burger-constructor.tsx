@@ -17,17 +17,21 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef, useMemo } from "react";
-import { fillingPropType } from "../../utils/prop-types";
+import type { TCommonState, TFilling } from "../../utils/types";
 
 function BurgerConstructor() {
-  const orderDetailsIsOpen = useSelector((x) => x.order.orderDetailsIsOpen);
-  const bun = useSelector((x) => x.order.bun);
-  const fillings = useSelector((x) => x.order.fillings);
+  const orderDetailsIsOpen = useSelector(
+    (x: TCommonState) => x.order.orderDetailsIsOpen
+  );
+  const bun = useSelector((x: TCommonState) => x.order.bun);
+  const fillings = useSelector((x: TCommonState) => x.order.fillings);
   const dispatch = useDispatch();
   const ingredientsId = (bun ? [bun._id] : []).concat(
     fillings.map((x) => x.ingredient._id)
   );
-  const orderId = useSelector((x) => x.order.createdOrder?.number);
+  const orderId = useSelector(
+    (x: TCommonState) => x.order.createdOrder?.number
+  );
 
   const totalPrice = useMemo(
     () =>
@@ -112,7 +116,7 @@ function BurgerConstructor() {
   );
 }
 
-function BurgerFilling({ filling }) {
+function BurgerFilling({ filling }: { filling: TFilling }) {
   const dispatch = useDispatch();
   const ingredient = filling.ingredient;
   const ref = useRef(null);
@@ -127,7 +131,7 @@ function BurgerFilling({ filling }) {
 
   const [, dropTarget] = useDrop({
     accept: "filling",
-    drop(x) {
+    drop(x: TFilling) {
       if (x.id === filling.id) return;
       dispatch(fillingMoved(x, filling));
     },
@@ -154,9 +158,5 @@ function BurgerFilling({ filling }) {
     </li>
   );
 }
-
-BurgerFilling.propTypes = {
-  filling: fillingPropType,
-};
 
 export { BurgerConstructor };

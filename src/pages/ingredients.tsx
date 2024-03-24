@@ -7,12 +7,13 @@ import {
 } from "../services/actions/ingredients";
 import { IngredientDetails } from "../components/ingredient-details/ingredient-details";
 import styles from "./ingredients.module.css";
+import { TCommonState } from "../utils/types";
 
 function IngredientPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { allIngredients, currentIngredient } = useSelector(
-    (x) => x.ingredients
+    (x: TCommonState) => x.ingredients
   );
   useEffect(() => {
     dispatch(loadIngredients());

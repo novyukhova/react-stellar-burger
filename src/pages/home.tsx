@@ -8,6 +8,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./home.module.css";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { TCommonState } from "../utils/types";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -15,7 +16,9 @@ function HomePage() {
     dispatch(loadIngredients());
     dispatch(homeOpened());
   }, [dispatch]);
-  const navigateToLogin = useSelector((x) => x.auth.navigateToLogin);
+  const navigateToLogin = useSelector(
+    (x: TCommonState) => x.auth.navigateToLogin
+  );
   if (navigateToLogin) {
     return <Navigate to="/login" />;
   }

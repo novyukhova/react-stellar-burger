@@ -9,9 +9,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { loadUser, saveUser } from "../services/actions/profile";
 import { ProfileMenu } from "../components/profile-menu/profile-menu";
+import { TCommonState } from "../utils/types";
 
 function ProfilePage() {
-  const user = useSelector((x) => x.profile.user);
+  const user = useSelector((x: TCommonState) => x.profile.user);
   const [name, setName] = useState(user?.name ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [password, setPassword] = useState("");
@@ -37,7 +38,7 @@ function ProfilePage() {
             className={styles.form}
             onSubmit={(e) => {
               e.preventDefault();
-              dispatch(saveUser(name, email, password));
+              dispatch(saveUser(name, email));
             }}
           >
             <Input

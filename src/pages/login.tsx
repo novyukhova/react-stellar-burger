@@ -9,11 +9,14 @@ import { sendLoginForm } from "../services/actions/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { loginPageOpened } from "../services/actions";
+import { TCommonState } from "../utils/types";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { navigateHome, isAuthenticated } = useSelector((x) => x.auth);
+  const { navigateHome, isAuthenticated } = useSelector(
+    (x: TCommonState) => x.auth
+  );
   const dispatch = useDispatch();
   const location = useLocation();
 

@@ -2,9 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import styles from "./profile-menu.module.css";
 import { logout } from "../../services/actions/auth";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 
-function ProfileMenu({ description }) {
+function ProfileMenu({ description }: { description: string }) {
   const dispatch = useDispatch();
   return (
     <div className={styles.leftColumn}>
@@ -32,8 +31,12 @@ function ProfileMenu({ description }) {
           }
         </NavLink>
         <Link
+          to="/login"
           className={`text text_type_main-medium text_color_inactive ${styles.link}`}
-          onClick={() => dispatch(logout())}
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(logout());
+          }}
         >
           Выход
         </Link>
@@ -44,9 +47,5 @@ function ProfileMenu({ description }) {
     </div>
   );
 }
-
-ProfileMenu.propTypes = {
-  description: PropTypes.string.isRequired,
-};
 
 export { ProfileMenu };
