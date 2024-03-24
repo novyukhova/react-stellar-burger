@@ -7,21 +7,24 @@ import styles from "./login.module.css";
 import { useEffect, useState } from "react";
 import { sendLoginForm } from "../services/actions/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { loginPageOpened } from "../services/actions";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { navigateHome } = useSelector((x) => x.auth);
+  const { navigateHome, isAuthenticated } = useSelector((x) => x.auth);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(loginPageOpened());
   }, [dispatch]);
+  console.log(location.state?.from);
+  const backPath = location.state?.from ?? "/";
 
-  if (navigateHome) {
-    return <Navigate to="/" />;
+  if (navigateHome || isAuthenticated) {
+    return <Navigate to={backPath} />;
   }
 
   return (

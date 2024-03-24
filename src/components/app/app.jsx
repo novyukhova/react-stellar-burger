@@ -19,15 +19,7 @@ function App() {
         <AppHeader />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route
-            path="/login"
-            element={
-              <ProtectedRouteElement
-                forbidAuthenticated={true}
-                element={<LoginPage />}
-              />
-            }
-          />
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/register"
             element={
@@ -57,11 +49,21 @@ function App() {
           />
           <Route
             path="/profile"
-            element={<ProtectedRouteElement element={<ProfilePage />} />}
+            element={
+              <ProtectedRouteElement
+                path="/profile"
+                element={<ProfilePage />}
+              />
+            }
           />
           <Route
             path="/profile/orders"
-            element={<ProtectedRouteElement element={<OrdersPage />} />}
+            element={
+              <ProtectedRouteElement
+                path="/profile/orders"
+                element={<OrdersPage />}
+              />
+            }
           />
           <Route path="/ingredients/:id" element={<IngredientPage />} />
           <Route path="/*" element={<NotFoundPage />} />
