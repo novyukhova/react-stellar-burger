@@ -1,7 +1,7 @@
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Menu } from "../menu/menu";
 import styles from "./app-header.module.css";
-import { TMenuItem } from "../../utils/types";
+import { TMenuItem } from "../../services/types/data";
 
 const menuItems: TMenuItem[][] = [
   [

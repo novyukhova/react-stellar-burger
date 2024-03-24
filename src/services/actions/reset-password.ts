@@ -4,33 +4,56 @@ import {
   resetPassword as apiResetPassword,
 } from "../../utils/api";
 import { navigateToLogin } from "./auth";
+import {
+  RESET_EMAIL_SENT,
+  RESET_PASSWORD_OPENED,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_ERROR,
+} from "../constants/reset-password";
+import { AppThunk } from "../types";
 
-const RESET_EMAIL_SENT = "RESET_EMAIL_SENT";
-const PASSWORD_RESET_SUCCESS = "PASSWORD_RESET_SUCCESS";
-const PASSWORD_RESET_ERROR = "PASSWORD_RESET_ERROR";
-const RESET_PASSWORD_OPENED = "RESET_PASSWORD_OPENED";
+const sendResetEmail: AppThunk = (email: string) => (dispatch: Dispatch) =>
+  apiSendResetEmail(email)
+    .then((res) => dispatch(resetEmailSent()))
+    .catch(console.error);
 
-function sendResetEmail(email: string) {
-  return (dispatch: Dispatch) =>
-    apiSendResetEmail(email)
-      .then((res) => dispatch(resetEmailSent()))
-      .catch(console.error);
-}
+type TResetEmailSentAction = {
+  type: typeof RESET_EMAIL_SENT;
+};
 
-function resetEmailSent() {
+type TResetPasswordOpenedAction = {
+  type: typeof RESET_PASSWORD_OPENED;
+};
+
+type TPasswordResetSuccessAction = {
+  type: typeof PASSWORD_RESET_SUCCESS;
+};
+
+type TPasswordResetErrorAction = {
+  type: typeof PASSWORD_RESET_ERROR;
+  message: string;
+};
+
+type TResetPasswordAction =
+  | TResetEmailSentAction
+  | TResetPasswordOpenedAction
+  | TPasswordResetSuccessAction
+  | TPasswordResetErrorAction;
+
+function resetEmailSent(): TResetEmailSentAction {
   return {
     type: RESET_EMAIL_SENT,
   };
 }
 
-function resetPasswordOpened() {
+function resetPasswordOpened(): TResetPasswordOpenedAction {
   return {
     type: RESET_PASSWORD_OPENED,
   };
 }
 
-function resetPassword(password: string, token: string) {
-  return (dispatch: Dispatch) =>
+const resetPassword: AppThunk =
+  (password: string, token: string) => (dispatch: Dispatch) =>
     apiResetPassword(password, token)
       .then((res) => {
         if (res.success) {
@@ -46,26 +69,20 @@ function resetPassword(password: string, token: string) {
       .catch(() =>
         dispatch(passwordResetError("Something went wrong. Try again later"))
       );
-}
 
-function passwordResetSuccess() {
+function passwordResetSuccess(): TPasswordResetSuccessAction {
   return {
     type: PASSWORD_RESET_SUCCESS,
   };
 }
 
-function passwordResetError(message: string) {
+function passwordResetError(message: string): TPasswordResetErrorAction {
   return {
     type: PASSWORD_RESET_ERROR,
     message: message,
   };
 }
 
-export {
-  sendResetEmail,
-  RESET_EMAIL_SENT,
-  resetPassword,
-  PASSWORD_RESET_SUCCESS,
-  resetPasswordOpened,
-  RESET_PASSWORD_OPENED,
-};
+export { sendResetEmail, resetPassword, resetPasswordOpened };
+
+export type { TResetPasswordAction };

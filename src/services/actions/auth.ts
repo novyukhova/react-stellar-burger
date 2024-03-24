@@ -7,15 +7,18 @@ import {
 } from "../../utils/api";
 import { userLoaded } from "./profile";
 
-const REGISTERED = "REGISTERED";
-const REGISTER_ERROR = "REGISTER_ERROR";
-const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-const LOGIN_ERROR = "LOGIN_ERROR";
-const LOGGED_OUT = "LOGGED_OUT";
-const NAVIGATE_TO_LOGIN = "NAVIGATE_TO_LOGIN";
+import {
+  REGISTERED,
+  REGISTER_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  LOGGED_OUT,
+  NAVIGATE_TO_LOGIN,
+} from "../constants/auth";
+import { AppDispatch, AppThunk } from "../types";
 
-function sendRegisterForm(name: string, email: string, password: string) {
-  return (dispatch: Dispatch) =>
+const sendRegisterForm: AppThunk =
+  (name: string, email: string, password: string) => (dispatch: AppDispatch) =>
     apiRegister(name, email, password)
       .then((res) => {
         if (res.success) {
@@ -32,10 +35,9 @@ function sendRegisterForm(name: string, email: string, password: string) {
         );
       })
       .catch(console.error);
-}
 
-function sendLoginForm(email: string, password: string) {
-  return (dispatch: Dispatch) =>
+const sendLoginForm: AppThunk =
+  (email: string, password: string) => (dispatch: Dispatch) =>
     apiLogin(email, password)
       .then((res) => {
         if (res.success) {
@@ -49,65 +51,86 @@ function sendLoginForm(email: string, password: string) {
         );
       })
       .catch(console.error);
-}
 
-function registered() {
+type TRegisteredAction = {
+  type: typeof REGISTERED;
+};
+
+type TRegisterErrorAction = {
+  type: typeof REGISTER_ERROR;
+  message: string;
+};
+
+type TLoginSuccessAction = {
+  type: typeof LOGIN_SUCCESS;
+};
+
+type TLoginErrorAction = {
+  type: typeof LOGIN_ERROR;
+  message: string;
+};
+
+type TLoggedOutAction = {
+  type: typeof LOGGED_OUT;
+};
+
+type TNavigateToLoginAction = {
+  type: typeof NAVIGATE_TO_LOGIN;
+};
+
+type TAuthAction =
+  | TRegisteredAction
+  | TRegisterErrorAction
+  | TLoginSuccessAction
+  | TLoginErrorAction
+  | TLoggedOutAction
+  | TNavigateToLoginAction;
+
+function registered(): TRegisteredAction {
   return {
     type: REGISTERED,
   };
 }
 
-function registerError(message: string) {
+function registerError(message: string): TRegisterErrorAction {
   return {
     type: REGISTER_ERROR,
     message: message,
   };
 }
 
-function loginSuccess() {
+function loginSuccess(): TLoginSuccessAction {
   return {
     type: LOGIN_SUCCESS,
   };
 }
 
-function loginError(message: string) {
+function loginError(message: string): TLoginErrorAction {
   return {
     type: LOGIN_ERROR,
     message: message,
   };
 }
 
-function loggedOut() {
+function loggedOut(): TLoggedOutAction {
   return {
     type: LOGGED_OUT,
   };
 }
 
-function logout() {
-  return (dispatch: Dispatch) =>
-    apiLogout()
-      .then(() => {
-        dispatch(loggedOut());
-      })
-      .catch(console.error);
-}
+const logout: AppThunk = () => (dispatch: Dispatch) =>
+  apiLogout()
+    .then(() => {
+      dispatch(loggedOut());
+    })
+    .catch(console.error);
 
-function navigateToLogin() {
+function navigateToLogin(): TNavigateToLoginAction {
   return {
     type: NAVIGATE_TO_LOGIN,
   };
 }
 
-export {
-  sendRegisterForm,
-  REGISTERED,
-  REGISTER_ERROR,
-  sendLoginForm,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  loggedOut,
-  LOGGED_OUT,
-  logout,
-  navigateToLogin,
-  NAVIGATE_TO_LOGIN,
-};
+export { sendRegisterForm, sendLoginForm, loggedOut, logout, navigateToLogin };
+
+export type { TAuthAction };

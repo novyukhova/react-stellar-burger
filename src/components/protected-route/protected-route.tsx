@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import { Navigate } from "react-router-dom";
-import { TCommonState } from "../../utils/types";
 
 function ProtectedRouteElement({
   element,
@@ -11,9 +10,7 @@ function ProtectedRouteElement({
   path?: string;
   forbidAuthenticated?: boolean;
 }) {
-  const isAuthenticated = useSelector(
-    (x: TCommonState) => x.auth.isAuthenticated
-  );
+  const isAuthenticated = useSelector((x) => x.auth.isAuthenticated);
   if (!isAuthenticated && !forbidAuthenticated) {
     return <Navigate to="/login" state={{ from: path }} />;
   }

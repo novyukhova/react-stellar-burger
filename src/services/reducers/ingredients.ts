@@ -1,10 +1,18 @@
-import { INGREDIENTS_LOADED } from "../actions/ingredients";
+import { TIngredient } from "../../utils/api";
+import { TIngredientsAction } from "../actions/ingredients";
+import { INGREDIENTS_LOADED } from "../constants/ingredients";
+type TIngredientState = {
+  allIngredients: TIngredient[];
+};
 
 const initialState = {
   allIngredients: [],
 };
 
-function ingredientsReducer(state = initialState, action: { type: string }) {
+function ingredientsReducer(
+  state: TIngredientState = initialState,
+  action: TIngredientsAction
+) {
   switch (action.type) {
     case INGREDIENTS_LOADED:
       return {

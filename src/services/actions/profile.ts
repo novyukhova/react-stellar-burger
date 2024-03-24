@@ -5,31 +5,36 @@ import {
   saveUser as apiSaveUser,
 } from "../../utils/api";
 import { loggedOut } from "./auth";
+import { USER_LOADED } from "../constants/profile";
+import { AppThunk } from "../types";
 
-const USER_LOADED = "USER_LOADED";
+type TUserLoadedAction = {
+  type: typeof USER_LOADED;
+  user: TUser;
+};
 
-function userLoaded(user: TUser) {
+type TProfileAction = TUserLoadedAction;
+
+function userLoaded(user: TUser): TUserLoadedAction {
   return {
     type: USER_LOADED,
     user,
   };
 }
 
-function loadUser() {
-  return (dispatch: Dispatch) =>
-    apiLoadUser()
-      .then((res) => {
-        dispatch(userLoaded(res.user));
-      })
-      .catch((err) => {
-        if (err?.status === 401) {
-          dispatch(loggedOut());
-        }
-      });
-}
+const loadUser: AppThunk = () => (dispatch: Dispatch) =>
+  apiLoadUser()
+    .then((res) => {
+      dispatch(userLoaded(res.user));
+    })
+    .catch((err) => {
+      if (err?.status === 401) {
+        dispatch(loggedOut());
+      }
+    });
 
-function saveUser(name: string, email: string) {
-  return (dispatch: Dispatch) =>
+const saveUser: AppThunk =
+  (name: string, email: string) => (dispatch: Dispatch) =>
     apiSaveUser({
       name: name,
       email: email,
@@ -40,6 +45,7 @@ function saveUser(name: string, email: string) {
           dispatch(loggedOut());
         }
       });
-}
 
-export { USER_LOADED, userLoaded, loadUser, saveUser };
+export { userLoaded, loadUser, saveUser };
+
+export type { TProfileAction };

@@ -1,5 +1,5 @@
 import { MenuItem } from "../menu-item/menu-item";
-import { TMenuItem } from "../../utils/types";
+import { TMenuItem } from "../../services/types/data";
 
 import styles from "./menu.module.css";
 

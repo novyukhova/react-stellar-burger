@@ -1,16 +1,29 @@
 import { getCookie } from "../../utils/cookie";
-import { HOME_OPENED, LOGIN_PAGE_OPENED } from "../actions";
-import { LOGIN_SUCCESS, LOGGED_OUT, NAVIGATE_TO_LOGIN } from "../actions/auth";
+import { HOME_OPENED, LOGIN_PAGE_OPENED } from "../constants/common";
+import {
+  LOGIN_SUCCESS,
+  LOGGED_OUT,
+  NAVIGATE_TO_LOGIN,
+} from "../constants/auth";
 
 const refreshToken = getCookie("token");
 
+type TAuthState = {
+  isAuthenticated: boolean;
+  navigateHome: boolean;
+  navigateToLogin: boolean;
+};
+
 const initialState = {
-  isAuthenticated: refreshToken && refreshToken !== "",
+  isAuthenticated: Boolean(refreshToken && refreshToken !== ""),
   navigateHome: false,
   navigateToLogin: false,
 };
 
-function authReducer(state = initialState, action: { type: string }) {
+function authReducer(
+  state: TAuthState = initialState,
+  action: { type: string }
+) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {

@@ -1,13 +1,17 @@
+import { TResetPasswordAction } from "../actions/reset-password";
 import {
   RESET_EMAIL_SENT,
   RESET_PASSWORD_OPENED,
-} from "../actions/reset-password";
+} from "../constants/reset-password";
 
 const initialState = {
   resetEmailSent: false,
 };
 
-function resetPasswordReducer(state = initialState, action) {
+function resetPasswordReducer(
+  state: TResetPasswordState = initialState,
+  action: TResetPasswordAction
+) {
   switch (action.type) {
     case RESET_EMAIL_SENT:
       return {
@@ -25,3 +29,6 @@ function resetPasswordReducer(state = initialState, action) {
 }
 
 export { resetPasswordReducer };
+type TResetPasswordState = {
+  resetEmailSent: boolean;
+};

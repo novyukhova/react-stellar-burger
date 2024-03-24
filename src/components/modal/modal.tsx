@@ -14,7 +14,7 @@ function Modal({
   title?: string;
 }) {
   const closeOnEscape = useCallback(
-    (event) => event.key === "Escape" && onClose(),
+    (event: KeyboardEvent) => event.key === "Escape" && onClose(),
     [onClose]
   );
 

@@ -5,9 +5,15 @@ import {
   TOrder,
 } from "../../utils/api";
 import { loggedOut, navigateToLogin } from "./auth";
-import { TFilling } from "../../utils/types";
-
-const ORDER_ACCEPTED = "ORDER_ACCEPTED";
+import { TFilling } from "../types/data";
+import {
+  DELETED_FILLING_IN_ORDER,
+  FILLING_MOVED,
+  NEW_INGREDIENT_IN_ORDER,
+  ORDER_ACCEPTED,
+  ORDER_DETAILS_CLOSED,
+} from "../constants/order";
+import { AppThunk } from "../types";
 
 function orderAccepted(order: TOrder): TOrderAcceptedAction {
   return {
@@ -21,8 +27,8 @@ type TOrderAcceptedAction = {
   order: TOrder;
 };
 
-function createOrder(ingredientsId: string[]) {
-  return (dispatch: Dispatch) =>
+const createOrder: AppThunk =
+  (ingredientsId: string[]) => (dispatch: Dispatch) =>
     apiCreateOrder(ingredientsId)
       .then((res) => dispatch(orderAccepted(res.order)))
       .catch((err) => {
@@ -31,9 +37,6 @@ function createOrder(ingredientsId: string[]) {
           dispatch(navigateToLogin());
         }
       });
-}
-
-const ORDER_DETAILS_CLOSED = "ORDER_DETAILS_CLOSED";
 
 function orderDetailsClosed(): TOrderDetailsClosedAction {
   return {
@@ -44,8 +47,6 @@ function orderDetailsClosed(): TOrderDetailsClosedAction {
 type TOrderDetailsClosedAction = {
   type: typeof ORDER_DETAILS_CLOSED;
 };
-
-const NEW_INGREDIENT_IN_ORDER = "NEW_INGREDIENT_IN_ORDER";
 
 function newIngredientInOrder(
   ingredient: TIngredient
@@ -61,8 +62,6 @@ type TNewIngredientInOrderAction = {
   ingredient: TIngredient;
 };
 
-const DELETED_FILLING_IN_ORDER = "DELETED_INGREDIENT_IN_ORDER";
-
 function deletedFillingInOrder(
   filling: TFilling
 ): TDeletedFillingInOrderAction {
@@ -76,8 +75,6 @@ type TDeletedFillingInOrderAction = {
   type: typeof DELETED_FILLING_IN_ORDER;
   filling: TFilling;
 };
-
-const FILLING_MOVED = "FILLING_MOVED";
 
 function fillingMoved(
   movedFilling: TFilling,
@@ -104,15 +101,10 @@ type TOrderAction =
   | TFillingMovedAction;
 
 export {
-  ORDER_ACCEPTED,
   orderAccepted,
-  ORDER_DETAILS_CLOSED,
   orderDetailsClosed,
-  NEW_INGREDIENT_IN_ORDER,
   newIngredientInOrder,
-  DELETED_FILLING_IN_ORDER,
   deletedFillingInOrder,
-  FILLING_MOVED,
   fillingMoved,
   createOrder,
 };

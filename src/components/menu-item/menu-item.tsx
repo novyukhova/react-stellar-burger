@@ -1,7 +1,7 @@
 import * as Icons from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import styles from "./menu-item.module.css";
 import { NavLink } from "react-router-dom";
-import { TMenuItem } from "../../utils/types";
+import { TMenuItem } from "../../services/types/data";
 
 function MenuItem({ item: { icon, href, text } }: { item: TMenuItem }) {
   const Icon = Icons[icon] || Icons["CloseIcon"];

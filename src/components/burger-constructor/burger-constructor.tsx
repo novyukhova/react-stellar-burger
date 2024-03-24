@@ -14,25 +14,21 @@ import {
   fillingMoved,
   createOrder,
 } from "../../services/actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/hooks";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef, useMemo } from "react";
-import type { TCommonState, TFilling } from "../../utils/types";
+import type { TFilling } from "../../services/types/data";
 import { TIngredient } from "../../utils/api";
 
 function BurgerConstructor() {
-  const orderDetailsIsOpen = useSelector(
-    (x: TCommonState) => x.order.orderDetailsIsOpen
-  );
-  const bun = useSelector((x: TCommonState) => x.order.bun);
-  const fillings = useSelector((x: TCommonState) => x.order.fillings);
+  const orderDetailsIsOpen = useSelector((x) => x.order.orderDetailsIsOpen);
+  const bun = useSelector((x) => x.order.bun);
+  const fillings = useSelector((x) => x.order.fillings);
   const dispatch = useDispatch();
   const ingredientsId = (bun ? [bun._id] : []).concat(
     fillings.map((x) => x.ingredient._id)
   );
-  const orderId = useSelector(
-    (x: TCommonState) => x.order.createdOrder?.number
-  );
+  const orderId = useSelector((x) => x.order.createdOrder?.number);
 
   const totalPrice = useMemo(
     () =>

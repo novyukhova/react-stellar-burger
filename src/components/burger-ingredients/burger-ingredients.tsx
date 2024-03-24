@@ -5,9 +5,8 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import { useDrag } from "react-dnd";
-import { TCommonState } from "../../utils/types";
 import { TIngredient } from "../../utils/api";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -18,12 +17,10 @@ const ingredientTypes = [
 ];
 
 function BurgerIngredients() {
-  const ingredients = useSelector(
-    (store: TCommonState) => store.ingredients.allIngredients
-  );
+  const ingredients = useSelector((x) => x.ingredients.allIngredients);
   const [type, setType] = useState("bun");
-  const orderedBun = useSelector((x: TCommonState) => x.order.bun);
-  const orderedFillings = useSelector((x: TCommonState) => x.order.fillings);
+  const orderedBun = useSelector((x) => x.order.bun);
+  const orderedFillings = useSelector((x) => x.order.fillings);
   const typesRef = useRef<Record<string, HTMLElement>>({});
   const fillingCountsByIngredientId = useMemo(
     () =>

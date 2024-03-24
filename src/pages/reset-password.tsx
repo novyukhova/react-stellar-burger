@@ -8,19 +8,16 @@ import {
   resetPassword,
   resetPasswordOpened,
 } from "../services/actions/reset-password";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../services/hooks";
 import { useState, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { TCommonState } from "../utils/types";
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
-  const navigateToLogin = useSelector(
-    (x: TCommonState) => x.auth.navigateToLogin
-  );
+  const navigateToLogin = useSelector((x) => x.auth.navigateToLogin);
   useEffect(() => {
     dispatch(resetPasswordOpened());
   }, [dispatch]);
