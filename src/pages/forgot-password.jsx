@@ -21,7 +21,13 @@ function ForgotPasswordPage() {
 
   return (
     <>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(sendResetEmail(email));
+        }}
+      >
         <h1 className="text text_type_main-medium pb-6">
           Восстановление пароля
         </h1>
@@ -33,12 +39,7 @@ function ForgotPasswordPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={() => dispatch(sendResetEmail(email))}
-        >
+        <Button htmlType="submit" type="primary" size="large">
           Восстановить
         </Button>
         <p className="text text_type_main-default pt-20">

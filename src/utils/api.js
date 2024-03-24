@@ -126,6 +126,10 @@ function logout() {
     body: JSON.stringify({
       token: getCookie("token"),
     }),
+  }).then((res) => {
+    setCookie("token", "");
+    accessToken = null;
+    return res;
   });
 }
 

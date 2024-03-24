@@ -33,7 +33,13 @@ function ProfilePage() {
         <ProfileMenu description="В этом разделе вы можете изменить свои персональные данные" />
 
         <div className={styles.information}>
-          <form className={styles.form}>
+          <form
+            className={styles.form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              dispatch(saveUser(name, email, password));
+            }}
+          >
             <Input
               placeholder={"Имя"}
               name={"name"}
@@ -66,12 +72,7 @@ function ProfilePage() {
                 >
                   Отмена
                 </Button>
-                <Button
-                  htmlType="button"
-                  type="primary"
-                  size="medium"
-                  onClick={() => dispatch(saveUser(name, email, password))}
-                >
+                <Button htmlType="submit" type="primary" size="medium">
                   Сохранить
                 </Button>
               </div>

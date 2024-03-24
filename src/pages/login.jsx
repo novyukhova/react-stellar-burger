@@ -29,7 +29,13 @@ function LoginPage() {
 
   return (
     <>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(sendLoginForm(email, password));
+        }}
+      >
         <h1 className="text text_type_main-medium pb-6">Вход</h1>
         <EmailInput
           name={"email"}
@@ -44,12 +50,7 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={() => dispatch(sendLoginForm(email, password))}
-        >
+        <Button htmlType="submit" type="primary" size="large">
           Войти
         </Button>
         <p className="text text_type_main-default pt-20">

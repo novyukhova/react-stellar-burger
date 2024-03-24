@@ -32,7 +32,13 @@ function ResetPasswordPage() {
 
   return (
     <>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(resetPassword(password, token));
+        }}
+      >
         <h1 className="text text_type_main-medium pb-6">
           Восстановление пароля
         </h1>
@@ -50,12 +56,7 @@ function ResetPasswordPage() {
           value={token}
           onChange={(e) => setToken(e.target.value)}
         />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={() => dispatch(resetPassword(password, token))}
-        >
+        <Button htmlType="submit" type="primary" size="large">
           Сохранить
         </Button>
         <p className="text text_type_main-default pt-20">

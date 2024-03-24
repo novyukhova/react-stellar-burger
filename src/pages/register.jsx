@@ -22,7 +22,13 @@ function RegisterPage() {
 
   return (
     <>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(sendRegisterForm(name, email, password));
+        }}
+      >
         <h1 className="text text_type_main-medium pb-6">Регистрация</h1>
         <Input
           type={"text"}
@@ -46,12 +52,7 @@ function RegisterPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={() => dispatch(sendRegisterForm(name, email, password))}
-        >
+        <Button htmlType="submit" type="primary" size="large">
           Зарегистрироваться
         </Button>
         <p className="text text_type_main-default pt-20">
