@@ -1,18 +1,18 @@
 import { useSelector } from "../../services/hooks";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 function ProtectedRouteElement({
   element,
-  path,
   forbidAuthenticated = false,
 }: {
   element: JSX.Element;
   path?: string;
   forbidAuthenticated?: boolean;
 }) {
+  const location = useLocation();
   const isAuthenticated = useSelector((x) => x.auth.isAuthenticated);
   if (!isAuthenticated && !forbidAuthenticated) {
-    return <Navigate to="/login" state={{ from: path }} />;
+    return <Navigate to="/login" state={{ from: location.pathname }} />;
   }
   if (isAuthenticated && forbidAuthenticated) {
     return <Navigate to="/" />;

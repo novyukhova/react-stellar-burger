@@ -1,0 +1,12 @@
+.main {
+  margin: 0 auto;
+  max-width: calc(1920px - 2 * 320px);
+}
+
+.columns {
+  display: flex;
+}
+
+.columns > section {
+  flex-basis: 50%;
+}

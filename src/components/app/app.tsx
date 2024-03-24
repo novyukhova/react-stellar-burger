@@ -20,6 +20,10 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadIngredients } from "../../services/actions";
 import { IngredientModal } from "../ingredient-modal/ingredient-modal";
+import { FeedPage } from "../../pages/feed";
+import { OrderModal } from "../order-modal/order-modal";
+import { FeedOrderPage } from "../../pages/feed-order";
+import { ProfileOrderPage } from "../../pages/profile-order";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,25 +78,32 @@ function ModalSwitch() {
         />
         <Route
           path="/profile"
-          element={
-            <ProtectedRouteElement path="/profile" element={<ProfilePage />} />
-          }
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
         />
         <Route
           path="/profile/orders"
-          element={
-            <ProtectedRouteElement
-              path="/profile/orders"
-              element={<OrdersPage />}
-            />
-          }
+          element={<ProtectedRouteElement element={<OrdersPage />} />}
         />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<FeedOrderPage />} />
+        <Route
+          path="/profile/orders/:id"
+          element={<ProtectedRouteElement element={<ProfileOrderPage />} />}
+        />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Routes>
         {background && (
-          <Route path="/ingredients/:id" element={<IngredientModal />} />
+          <>
+            <Route path="/ingredients/:id" element={<IngredientModal />} />
+            <Route path="/feed/:id" element={<OrderModal />} />
+            <Route
+              path="/profile/orders/:id"
+              element={<ProtectedRouteElement element={<OrderModal />} />}
+            />
+          </>
         )}
       </Routes>
     </>

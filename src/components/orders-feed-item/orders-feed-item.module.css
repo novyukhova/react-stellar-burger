@@ -1,0 +1,42 @@
+.order_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 25px;
+  background-color: #1c1c21;
+}
+
+.order_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.burger_details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ingredients_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+
+.imageContainer {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  border: 2px solid #801ab2;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-left: -10px;
+  background-color: #000;
+}

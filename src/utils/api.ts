@@ -61,6 +61,13 @@ function setTokens(access: string, refresh: string) {
   accessToken = access;
 }
 
+function getAccessToken(): Promise<string> {
+  if (accessToken) {
+    return Promise.resolve(accessToken);
+  }
+  return refreshToken().then((res) => res.accessToken);
+}
+
 type TIngredient = {
   _id: string;
   name: string;
@@ -236,5 +243,6 @@ export {
   loadUser,
   saveUser,
   setTokens,
+  getAccessToken,
 };
 export type { TIngredient, TUser, TOrder };

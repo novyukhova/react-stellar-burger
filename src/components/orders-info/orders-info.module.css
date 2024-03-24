@@ -1,0 +1,16 @@
+.orderLists {
+  display: flex;
+}
+
+.orderLists > * {
+  flex-basis: 50%;
+}
+
+.orderList {
+  list-style: none;
+  padding: 0;
+}
+
+.finished_orders li {
+  color: #00cccc;
+}

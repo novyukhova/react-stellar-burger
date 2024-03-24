@@ -7,16 +7,18 @@ import { TOrderAction } from "../actions/order";
 import { TProfileAction } from "../actions/profile";
 import { TResetPasswordAction } from "../actions/reset-password";
 import { ThunkAction } from "redux-thunk";
+import { TWSActions } from "../actions/ws";
 
 export type TCommonState = ReturnType<typeof store.getState>;
 
-type TApplicationAction =
+export type TApplicationAction =
   | TCommonActions
   | TProfileAction
   | TOrderAction
   | TAuthAction
   | TResetPasswordAction
-  | TIngredientsAction;
+  | TIngredientsAction
+  | TWSActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, TCommonState, TApplicationAction>

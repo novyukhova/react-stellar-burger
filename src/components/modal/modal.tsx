@@ -8,10 +8,12 @@ function Modal({
   onClose,
   children,
   title,
+  smallTitle = false,
 }: {
   onClose: () => void;
   children: React.ReactNode;
   title?: string;
+  smallTitle?: boolean;
 }) {
   const closeOnEscape = useCallback(
     (event: KeyboardEvent) => event.key === "Escape" && onClose(),
@@ -30,7 +32,13 @@ function Modal({
     <ModalOverlay onClick={onClose}>
       <div className={`${styles.modal} p-10`}>
         <div className={styles.header}>
-          <h2 className="text text_type_main-large">{title}</h2>
+          <h2
+            className={`text ${
+              smallTitle ? "text_type_digits-default" : "text_type_main-large"
+            }`}
+          >
+            {title}
+          </h2>
           <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
