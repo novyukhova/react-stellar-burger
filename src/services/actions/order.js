@@ -1,4 +1,5 @@
 import { createOrder as apiCreateOrder } from "../../utils/api";
+import { loggedOut, navigateToLogin } from "./auth";
 
 const ORDER_ACCEPTED = "ORDER_ACCEPTED";
 
@@ -13,7 +14,12 @@ function createOrder(ingredientsId) {
   return (dispatch) =>
     apiCreateOrder(ingredientsId)
       .then((res) => dispatch(orderAccepted(res.order)))
-      .catch(console.error);
+      .catch((err) => {
+        if (err?.status === 401) {
+          dispatch(loggedOut());
+          dispatch(navigateToLogin());
+        }
+      });
 }
 
 const ORDER_DETAILS_CLOSED = "ORDER_DETAILS_CLOSED";

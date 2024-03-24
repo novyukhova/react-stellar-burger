@@ -1,0 +1,22 @@
+.page {
+  display: flex;
+  justify-content: space-between;
+  margin: 120px auto;
+  max-width: calc(1920px - (340px * 2));
+  gap: 60px;
+}
+
+.information {
+  max-width: calc(1920px - 320px - 40px - 2 * 340px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonArea {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}

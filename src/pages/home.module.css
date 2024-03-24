@@ -1,0 +1,6 @@
+.home__main {
+  display: flex;
+  /* justify-content: center; */
+  margin: 0 auto;
+  max-width: calc(1920px - 2 * 320px);
+}

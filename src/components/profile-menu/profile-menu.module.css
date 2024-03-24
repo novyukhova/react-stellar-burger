@@ -1,0 +1,22 @@
+.link {
+  text-decoration: none;
+  min-height: 64px;
+}
+
+.active__link {
+  color: inherit;
+  text-decoration: none;
+  min-height: 64px;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 320px;
+}
+
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+}
