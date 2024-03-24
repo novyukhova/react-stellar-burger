@@ -9,13 +9,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendRegisterForm } from "../services/actions/auth";
 import { Navigate } from "react-router-dom";
+import { TCommonState } from "../utils/types";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
-  const { navigateHome } = useSelector((x) => x.auth.navigateHome);
+  const navigateHome = useSelector((x: TCommonState) => x.auth.navigateHome);
   if (navigateHome) {
     return <Navigate to="/" />;
   }
@@ -34,7 +35,6 @@ function RegisterPage() {
           type={"text"}
           placeholder={"Имя"}
           name={"name"}
-          isIcon={false}
           extraClass="pb-6"
           value={name}
           onChange={(e) => setName(e.target.value)}

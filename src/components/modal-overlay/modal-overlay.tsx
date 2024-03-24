@@ -1,7 +1,12 @@
-import PropTypes from "prop-types";
 import styles from "./modal-overlay.module.css";
 
-function ModalOverlay({ onClick, children }) {
+function ModalOverlay({
+  onClick,
+  children,
+}: {
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <section
       className={styles.overlay}
@@ -13,9 +18,5 @@ function ModalOverlay({ onClick, children }) {
     </section>
   );
 }
-
-ModalOverlay.propTypes = {
-  onClick: PropTypes.func,
-};
 
 export { ModalOverlay };

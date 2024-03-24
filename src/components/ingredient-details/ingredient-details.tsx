@@ -1,7 +1,7 @@
-import { ingredientPropType } from "../../utils/prop-types";
+import { TIngredient } from "../../utils/api";
 import styles from "./ingredient-details.module.css";
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails({ ingredient }: { ingredient: TIngredient }) {
   const nutritionFacts = [
     { name: "Калории,ккал", value: ingredient.calories },
     { name: "Белки, г", value: ingredient.proteins },
@@ -33,9 +33,5 @@ function IngredientDetails({ ingredient }) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType,
-};
 
 export { IngredientDetails };

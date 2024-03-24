@@ -7,11 +7,12 @@ import { sendResetEmail } from "../services/actions/reset-password";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { TCommonState } from "../utils/types";
 
 function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
-  const { resetEmailSent } = useSelector((x) => x.resetPassword);
+  const { resetEmailSent } = useSelector((x: TCommonState) => x.resetPassword);
 
   if (resetEmailSent) {
     return (

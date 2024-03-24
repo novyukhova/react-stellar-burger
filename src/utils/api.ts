@@ -4,13 +4,13 @@ const baseUrl = "https://norma.nomoreparties.space";
 const headers = {
   "Content-Type": "application/json",
 };
-let accessToken = null;
+let accessToken: string | null = null;
 
-function request(url, options) {
-  return fetch(url, options).then(checkResponse);
+function request<T>(url: string, options?: RequestInit): Promise<T> {
+  return fetch(url, options).then(checkResponse<T>);
 }
 
-function requestWithToken(url, options) {
+function requestWithToken<T>(url: string, options: RequestInit): Promise<T> {
   if (!accessToken) {
     return refreshToken().then((res) => {
       return request(url, {
@@ -23,7 +23,7 @@ function requestWithToken(url, options) {
     });
   }
 
-  return request(url, {
+  return request<T>(url, {
     ...options,
     headers: {
       ...options.headers,
@@ -32,7 +32,7 @@ function requestWithToken(url, options) {
   }).catch((err) => {
     if (err?.status === 401) {
       return refreshToken().then((res) => {
-        return request(url, {
+        return request<T>(url, {
           ...options,
           headers: {
             ...options.headers,
@@ -45,7 +45,7 @@ function requestWithToken(url, options) {
   });
 }
 
-function checkResponse(res) {
+function checkResponse<T>(res: Response): Promise<T> {
   if (res.ok) {
     return res.json();
   }
@@ -56,16 +56,51 @@ function checkResponse(res) {
   });
 }
 
-function setTokens(access, refresh) {
+function setTokens(access: string, refresh: string) {
   setCookie("token", refresh);
   accessToken = access;
 }
 
-function getIngredients() {
-  return request(`${baseUrl}/api/ingredients`).then((x) => x.data);
+type TIngredient = {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+};
+
+type TIngredientsResponse = {
+  data: TIngredient[];
+} & TApiResponse;
+
+function getIngredients(): Promise<TIngredient[]> {
+  return request<TIngredientsResponse>(`${baseUrl}/api/ingredients`).then(
+    (x) => x.data
+  );
 }
 
-function createOrder(ingredients) {
+type TOrder = {
+  ingredients: TIngredient[];
+  _id: string;
+  owner?: TUser;
+  status: string;
+  name: string;
+  number: number;
+  price: number;
+};
+
+type TOrderResponse = {
+  order: TOrder;
+  name: string;
+} & TApiResponse;
+
+function createOrder(ingredients: string[]): Promise<TOrderResponse> {
   return requestWithToken(`${baseUrl}/api/orders`, {
     method: "POST",
     headers: headers,
@@ -75,7 +110,7 @@ function createOrder(ingredients) {
   });
 }
 
-function sendResetEmail(email) {
+function sendResetEmail(email: string): Promise<TMessageResponse> {
   return request(`${baseUrl}/api/password-reset`, {
     method: "POST",
     headers: headers,
@@ -85,7 +120,14 @@ function sendResetEmail(email) {
   });
 }
 
-function resetPassword(password, token) {
+type TMessageResponse = {
+  message: string;
+} & TApiResponse;
+
+function resetPassword(
+  password: string,
+  token: string
+): Promise<TMessageResponse> {
   return request(`${baseUrl}/api/password-reset/reset`, {
     method: "POST",
     headers: headers,
@@ -96,7 +138,7 @@ function resetPassword(password, token) {
   });
 }
 
-function login(email, password) {
+function login(email: string, password: string): Promise<TLoginResponse> {
   return request(`${baseUrl}/api/auth/login`, {
     method: "POST",
     headers: headers,
@@ -107,7 +149,18 @@ function login(email, password) {
   });
 }
 
-function register(name, email, password) {
+type TLoginResponse = TTokenResponse & TUserResponse;
+
+type TTokenResponse = {
+  accessToken: string;
+  refreshToken: string;
+} & TApiResponse;
+
+function register(
+  name: string,
+  email: string,
+  password: string
+): Promise<TLoginResponse> {
   return request(`${baseUrl}/api/auth/register`, {
     method: "POST",
     headers: headers,
@@ -119,8 +172,8 @@ function register(name, email, password) {
   });
 }
 
-function logout() {
-  return request(`${baseUrl}/api/auth/logout`, {
+function logout(): Promise<TApiResponse> {
+  return request<TApiResponse>(`${baseUrl}/api/auth/logout`, {
     method: "POST",
     headers: headers,
     body: JSON.stringify({
@@ -133,8 +186,12 @@ function logout() {
   });
 }
 
-function refreshToken() {
-  return request(`${baseUrl}/api/auth/token`, {
+type TApiResponse = {
+  success: boolean;
+};
+
+function refreshToken(): Promise<TTokenResponse> {
+  return request<TTokenResponse>(`${baseUrl}/api/auth/token`, {
     method: "POST",
     headers: headers,
     body: JSON.stringify({
@@ -154,14 +211,18 @@ function refreshToken() {
     });
 }
 
-function loadUser() {
+type TUser = { name: string; email: string };
+
+type TUserResponse = { user: TUser } & TApiResponse;
+
+function loadUser(): Promise<TUserResponse> {
   return requestWithToken(`${baseUrl}/api/auth/user`, {
     method: "GET",
     headers: headers,
   });
 }
 
-function saveUser(user) {
+function saveUser(user: TUser): Promise<TUserResponse> {
   return requestWithToken(`${baseUrl}/api/auth/user`, {
     method: "PATCH",
     headers: headers,
@@ -182,3 +243,4 @@ export {
   saveUser,
   setTokens,
 };
+export type { TIngredient, TUser };

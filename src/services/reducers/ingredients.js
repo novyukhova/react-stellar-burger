@@ -1,11 +1,7 @@
-import {
-  INGREDIENTS_LOADED,
-  CURRENT_INGREDIENT_CHANGED,
-} from "../actions/ingredients";
+import { INGREDIENTS_LOADED } from "../actions/ingredients";
 
 const initialState = {
   allIngredients: [],
-  currentIngredient: null,
 };
 
 function ingredientsReducer(state = initialState, action) {
@@ -14,11 +10,6 @@ function ingredientsReducer(state = initialState, action) {
       return {
         ...state,
         allIngredients: action.ingredients,
-      };
-    case CURRENT_INGREDIENT_CHANGED:
-      return {
-        ...state,
-        currentIngredient: action.ingredient,
       };
     default:
       return state;

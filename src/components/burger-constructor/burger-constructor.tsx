@@ -17,17 +17,22 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef, useMemo } from "react";
-import { fillingPropType } from "../../utils/prop-types";
+import type { TCommonState, TFilling } from "../../utils/types";
+import { TIngredient } from "../../utils/api";
 
 function BurgerConstructor() {
-  const orderDetailsIsOpen = useSelector((x) => x.order.orderDetailsIsOpen);
-  const bun = useSelector((x) => x.order.bun);
-  const fillings = useSelector((x) => x.order.fillings);
+  const orderDetailsIsOpen = useSelector(
+    (x: TCommonState) => x.order.orderDetailsIsOpen
+  );
+  const bun = useSelector((x: TCommonState) => x.order.bun);
+  const fillings = useSelector((x: TCommonState) => x.order.fillings);
   const dispatch = useDispatch();
   const ingredientsId = (bun ? [bun._id] : []).concat(
     fillings.map((x) => x.ingredient._id)
   );
-  const orderId = useSelector((x) => x.order.createdOrder?.number);
+  const orderId = useSelector(
+    (x: TCommonState) => x.order.createdOrder?.number
+  );
 
   const totalPrice = useMemo(
     () =>
@@ -44,7 +49,8 @@ function BurgerConstructor() {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(x, monitor) {
+    drop(x: TIngredient, monitor) {
+      if (!bun && x.type !== "bun") return;
       if (monitor.getItemType() === "ingredient") {
         dispatch(newIngredientInOrder(x));
       } else {
@@ -53,23 +59,32 @@ function BurgerConstructor() {
     },
   });
 
+  if (!bun) {
+    return (
+      <div
+        className={`${styles["ingredient-list"]} pt-25 pl-4 pb-25 text text_type_main-default`}
+        ref={dropTarget}
+      >
+        Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа
+      </div>
+    );
+  }
+
   return (
     <>
       <ul
         className={`${styles["ingredient-list"]} pt-25 pl-4 pb-10`}
         ref={dropTarget}
       >
-        {bun && (
-          <li className="pl-8 pl-4 pr-4">
-            <ConstructorElement
-              text={`${bun.name} (верх)`}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              type="top"
-              isLocked={true}
-            />
-          </li>
-        )}
+        <li className="pl-8 pl-4 pr-4">
+          <ConstructorElement
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
+            type="top"
+            isLocked={true}
+          />
+        </li>
         <li className={`${styles["ingredient-list__filling"]} custom-scroll`}>
           <ul className={styles["filling-list"]}>
             {fillings.map((filling) => (
@@ -77,17 +92,15 @@ function BurgerConstructor() {
             ))}
           </ul>
         </li>
-        {bun && (
-          <li className="pl-8">
-            <ConstructorElement
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image_mobile}
-              type="bottom"
-              isLocked={true}
-            />
-          </li>
-        )}
+        <li className="pl-8">
+          <ConstructorElement
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
+            type="bottom"
+            isLocked={true}
+          />
+        </li>
       </ul>
       <div className={`${styles["order-info"]} pr-4`}>
         <div className={`${styles.price} pr-10`}>
@@ -112,7 +125,7 @@ function BurgerConstructor() {
   );
 }
 
-function BurgerFilling({ filling }) {
+function BurgerFilling({ filling }: { filling: TFilling }) {
   const dispatch = useDispatch();
   const ingredient = filling.ingredient;
   const ref = useRef(null);
@@ -127,7 +140,7 @@ function BurgerFilling({ filling }) {
 
   const [, dropTarget] = useDrop({
     accept: "filling",
-    drop(x) {
+    drop(x: TFilling) {
       if (x.id === filling.id) return;
       dispatch(fillingMoved(x, filling));
     },
@@ -154,9 +167,5 @@ function BurgerFilling({ filling }) {
     </li>
   );
 }
-
-BurgerFilling.propTypes = {
-  filling: fillingPropType,
-};
 
 export { BurgerConstructor };

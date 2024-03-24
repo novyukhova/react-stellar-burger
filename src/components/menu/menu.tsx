@@ -1,10 +1,15 @@
 import { MenuItem } from "../menu-item/menu-item";
-import PropTypes from "prop-types";
-import { menuItemPropType } from "../../utils/prop-types";
+import { TMenuItem } from "../../utils/types";
 
 import styles from "./menu.module.css";
 
-function Menu({ align, items }) {
+function Menu({
+  align,
+  items,
+}: {
+  align?: "right" | "left";
+  items: TMenuItem[];
+}) {
   return (
     <nav className={styles.menu}>
       <ul
@@ -22,10 +27,5 @@ function Menu({ align, items }) {
     </nav>
   );
 }
-
-Menu.propTypes = {
-  align: PropTypes.oneOf(["right", "left"]),
-  items: PropTypes.arrayOf(menuItemPropType),
-};
 
 export { Menu };

@@ -4,14 +4,12 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { currentIngredientChanged } from "../../services/actions";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
+import { TCommonState } from "../../utils/types";
+import { TIngredient } from "../../utils/api";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ingredientTypes = [
   { id: "bun", name: "Булки" },
@@ -20,16 +18,16 @@ const ingredientTypes = [
 ];
 
 function BurgerIngredients() {
-  const ingredients = useSelector((store) => store.ingredients.allIngredients);
+  const ingredients = useSelector(
+    (store: TCommonState) => store.ingredients.allIngredients
+  );
   const [type, setType] = useState("bun");
-  const currentIngredient = useSelector((x) => x.ingredients.currentIngredient);
-  const dispatch = useDispatch();
-  const orderedBun = useSelector((x) => x.order.bun);
-  const orderedFillings = useSelector((x) => x.order.fillings);
-  const typesRef = useRef({});
+  const orderedBun = useSelector((x: TCommonState) => x.order.bun);
+  const orderedFillings = useSelector((x: TCommonState) => x.order.fillings);
+  const typesRef = useRef<Record<string, HTMLElement>>({});
   const fillingCountsByIngredientId = useMemo(
     () =>
-      orderedFillings.reduce((c, f) => {
+      orderedFillings.reduce((c: Record<string, number>, f) => {
         if (c[f.ingredient._id]) {
           c[f.ingredient._id]++;
         } else {
@@ -44,7 +42,12 @@ function BurgerIngredients() {
     <>
       <div className={`${styles.tabs} pb-10`}>
         {ingredientTypes.map((x) => (
-          <Tab value={x.id} active={type === x.id} key={x.id}>
+          <Tab
+            value={x.id}
+            active={type === x.id}
+            key={x.id}
+            onClick={() => {}}
+          >
             {x.name}
           </Tab>
         ))}
@@ -64,7 +67,7 @@ function BurgerIngredients() {
         }}
       >
         {ingredientTypes.map((x) => (
-          <div key={x.id} ref={(el) => (typesRef.current[x.id] = el)}>
+          <div key={x.id} ref={(el) => (typesRef.current[x.id] = el!)}>
             <h2 className="text text_type_main-medium pb-6">{x.name}</h2>
             <ul className={`${styles["ingredient-list"]} pl-4 pb-10`}>
               {ingredients
@@ -86,23 +89,19 @@ function BurgerIngredients() {
           </div>
         ))}
       </div>
-      {currentIngredient && (
-        <Modal
-          onClose={() => {
-            window.history.back();
-            dispatch(currentIngredientChanged(null));
-          }}
-          title="Детали ингредиента"
-        >
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </>
   );
 }
 
-function BurgerIngredient({ ingredient, count }) {
-  const dispatch = useDispatch();
+function BurgerIngredient({
+  ingredient,
+  count,
+}: {
+  ingredient: TIngredient;
+  count: number;
+}) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: ingredient,
@@ -112,12 +111,9 @@ function BurgerIngredient({ ingredient, count }) {
     <li
       className={styles["ingredient-list__item"]}
       onClick={() => {
-        window.history.pushState(
-          {},
-          undefined,
-          `/ingredients/${ingredient._id}`
-        );
-        dispatch(currentIngredientChanged(ingredient));
+        navigate(`/ingredients/${ingredient._id}`, {
+          state: { background: location },
+        });
       }}
       ref={dragRef}
     >
@@ -133,10 +129,5 @@ function BurgerIngredient({ ingredient, count }) {
     </li>
   );
 }
-
-BurgerIngredient.propTypes = {
-  ingredient: ingredientPropType,
-  count: PropTypes.number,
-};
 
 export { BurgerIngredients };

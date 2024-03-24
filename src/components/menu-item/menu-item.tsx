@@ -1,9 +1,9 @@
 import * as Icons from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import styles from "./menu-item.module.css";
-import { menuItemPropType } from "../../utils/prop-types";
 import { NavLink } from "react-router-dom";
+import { TMenuItem } from "../../utils/types";
 
-function MenuItem({ item: { icon, href, text } }) {
+function MenuItem({ item: { icon, href, text } }: { item: TMenuItem }) {
   const Icon = Icons[icon] || Icons["CloseIcon"];
 
   return (
@@ -23,9 +23,5 @@ function MenuItem({ item: { icon, href, text } }) {
     </NavLink>
   );
 }
-
-MenuItem.propTypes = {
-  item: menuItemPropType,
-};
 
 export { MenuItem };

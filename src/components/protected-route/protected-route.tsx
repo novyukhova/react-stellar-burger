@@ -1,9 +1,19 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { TCommonState } from "../../utils/types";
 
-function ProtectedRouteElement({ element, path, forbidAuthenticated = false }) {
-  const isAuthenticated = useSelector((x) => x.auth.isAuthenticated);
+function ProtectedRouteElement({
+  element,
+  path,
+  forbidAuthenticated = false,
+}: {
+  element: JSX.Element;
+  path?: string;
+  forbidAuthenticated?: boolean;
+}) {
+  const isAuthenticated = useSelector(
+    (x: TCommonState) => x.auth.isAuthenticated
+  );
   if (!isAuthenticated && !forbidAuthenticated) {
     return <Navigate to="/login" state={{ from: path }} />;
   }
@@ -13,11 +23,5 @@ function ProtectedRouteElement({ element, path, forbidAuthenticated = false }) {
 
   return element;
 }
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.element.isRequired,
-  forbidAuthenticated: PropTypes.bool,
-  path: PropTypes.string,
-};
 
 export { ProtectedRouteElement };

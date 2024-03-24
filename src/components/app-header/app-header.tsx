@@ -1,14 +1,13 @@
-// import { Menu };
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Menu } from "../menu/menu";
 import styles from "./app-header.module.css";
+import { TMenuItem } from "../../utils/types";
 
-const menuItems = [
+const menuItems: TMenuItem[][] = [
   [
     {
       href: "/",
       icon: "BurgerIcon",
-      isActive: true,
       text: "Конструктор",
     },
     {
