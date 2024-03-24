@@ -3,7 +3,7 @@ import { OrdersFeedItem } from "../orders-feed-item/orders-feed-item";
 import { useSelector } from "../../services/hooks";
 
 function OrdersFeed() {
-  const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders || []);
+  const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders) || [];
 
   return (
     <div className={styles.feedContainer}>

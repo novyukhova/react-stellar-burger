@@ -8,9 +8,8 @@ function OrderModal() {
   const location = useLocation();
   const background = location.state?.background;
   const { id } = useParams();
-  const order = useSelector((x) => x.ws.lastOrdersMessage?.orders || []).find(
-    (x) => x._id === id
-  );
+  const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders) || [];
+  const order = orders.find((x) => x._id === id);
 
   return (
     <Modal

@@ -3,13 +3,16 @@ import { OrdersFeed } from "../components/orders-feed/orders-feed";
 import { OrdersInfo } from "../components/orders-info/orders-info";
 import { useEffect } from "react";
 import { useDispatch } from "../services/hooks";
-import { wsConnectionStart } from "../services/actions/ws";
+import { wsConnectionEnd, wsConnectionStart } from "../services/actions/ws";
 
 function FeedPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(wsConnectionStart("wss://norma.nomoreparties.space/orders/all"));
+    return () => {
+      dispatch(wsConnectionEnd());
+    };
   }, [dispatch]);
 
   return (

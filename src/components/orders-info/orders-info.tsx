@@ -2,7 +2,7 @@ import { useSelector } from "../../services/hooks";
 import styles from "./orders-info.module.css";
 
 function OrdersInfo() {
-  const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders || []);
+  const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders) || [];
   const readyOrders = orders
     .filter((order) => order.status === "done")
     .slice(0, 20);

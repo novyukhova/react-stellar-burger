@@ -3,6 +3,7 @@ import type { Middleware, MiddlewareAPI } from "redux";
 import type { TApplicationAction, AppDispatch, TCommonState } from "../types";
 import {
   WS_CONNECTION_CLOSED,
+  WS_CONNECTION_END,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
@@ -21,6 +22,11 @@ export const socketMiddleware = (): Middleware => {
       if (type === WS_CONNECTION_START) {
         socket = new WebSocket(action.payload);
       }
+
+      if (type === WS_CONNECTION_END && socket) {
+        socket.close();
+      }
+
       if (socket) {
         socket.onopen = (event) => {
           dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });

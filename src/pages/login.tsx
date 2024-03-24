@@ -13,7 +13,8 @@ import { loginPageOpened } from "../services/actions";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { navigateHome, isAuthenticated } = useSelector((x) => x.auth);
+  const navigateHome = useSelector((x) => x.auth.navigateHome);
+  const isAuthenticated = useSelector((x) => x.auth.isAuthenticated);
   const dispatch = useDispatch();
   const location = useLocation();
 

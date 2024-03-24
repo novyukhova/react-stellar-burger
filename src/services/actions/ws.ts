@@ -5,11 +5,16 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE,
+  WS_CONNECTION_END,
 } from "../constants/ws";
 
 type TWSConnectionStartAction = {
   type: typeof WS_CONNECTION_START;
   payload: string;
+};
+
+type TWSConnectionEndAction = {
+  type: typeof WS_CONNECTION_END;
 };
 
 type TWSConnectionSuccessAction = {
@@ -36,6 +41,7 @@ type TWSSendMessageAction = {
 
 export type TWSActions =
   | TWSConnectionStartAction
+  | TWSConnectionEndAction
   | TWSConnectionSuccessAction
   | TWSConnectionErrorAction
   | TWSConnectionClosedAction
@@ -46,6 +52,12 @@ export function wsConnectionStart(url: string): TWSConnectionStartAction {
   return {
     type: WS_CONNECTION_START,
     payload: url,
+  };
+}
+
+export function wsConnectionEnd(): TWSConnectionEndAction {
+  return {
+    type: WS_CONNECTION_END,
   };
 }
 

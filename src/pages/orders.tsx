@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { ProfileMenu } from "../components/profile-menu/profile-menu";
 import { useDispatch } from "../services/hooks";
 import styles from "./orders.module.css";
-import { wsConnectionStart } from "../services/actions/ws";
+import { wsConnectionEnd, wsConnectionStart } from "../services/actions/ws";
 import { getAccessToken } from "../utils/api";
 import { OrdersFeed } from "../components/orders-feed/orders-feed";
 
@@ -19,6 +19,9 @@ function OrdersPage() {
         )
       );
     });
+    return () => {
+      dispatch(wsConnectionEnd());
+    };
   }, [dispatch]);
 
   return (
