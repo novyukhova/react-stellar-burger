@@ -29,7 +29,7 @@ function LoginPage() {
 
   return (
     <form
-      className={styles.form}
+      className={`${styles.form} login-form`}
       onSubmit={(e) => {
         e.preventDefault();
         dispatch(sendLoginForm(email, password));

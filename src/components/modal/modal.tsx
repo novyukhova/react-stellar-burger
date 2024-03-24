@@ -39,7 +39,9 @@ function Modal({
           >
             {title}
           </h2>
-          <CloseIcon type="primary" onClick={onClose} />
+          <span className="modal-close-icon">
+            <CloseIcon type="primary" onClick={onClose} />
+          </span>
         </div>
         {children}
       </div>
