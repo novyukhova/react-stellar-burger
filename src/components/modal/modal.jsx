@@ -3,6 +3,7 @@ import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./modal.module.css";
+import { createPortal } from "react-dom";
 
 function Modal({ onClose, children, title }) {
   const closeOnEscape = useCallback(
@@ -18,19 +19,17 @@ function Modal({ onClose, children, title }) {
     };
   }, [closeOnEscape]);
 
-  return (
+  return createPortal(
     <ModalOverlay onClick={onClose}>
-      <div
-        onKeyDown={(e) => e.key === "Escape" && onClose()}
-        className={`${styles.modal} p-10`}
-      >
+      <div className={`${styles.modal} p-10`}>
         <div className={styles.header}>
           <h2 className="text text_type_main-large">{title}</h2>
           <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
       </div>
-    </ModalOverlay>
+    </ModalOverlay>,
+    document.getElementById("modals")
   );
 }
 

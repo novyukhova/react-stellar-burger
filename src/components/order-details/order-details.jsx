@@ -6,10 +6,10 @@ function OrderDetails(props) {
   return (
     <div className={styles["order-details"]}>
       <h3 className="text text_type_digits-large pb-8">{props.id}</h3>
-      <p className={`${styles.icon} text text_type_main-medium pb-15`}>
+      <p className={`${styles.text} text text_type_main-medium pb-15`}>
         идентификатор заказа
       </p>
-      <img src={doneIcon} alt="" className={`${styles.icon} pb-15`} />
+      <img src={doneIcon} alt="галочка" className={`${styles.icon} pb-15`} />
       <p className={`${styles.text} text text_type_main-default pb-2`}>
         Ваш заказ начали готовить
       </p>
@@ -23,7 +23,7 @@ function OrderDetails(props) {
 }
 
 OrderDetails.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export { OrderDetails };
