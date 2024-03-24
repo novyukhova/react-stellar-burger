@@ -20,6 +20,12 @@ function OrdersFeedItem({ order }: { order: TOrder }) {
   const price = order.ingredients.reduce((acc, id) => {
     return acc + ingredientsById[id].price;
   }, 0);
+  const uniqueIngredients: TIngredient[] = order.ingredients
+    .map((id) => ingredientsById[id])
+    .filter(
+      (ingredient, index, self) =>
+        self.findIndex((t) => t._id === ingredient._id) === index
+    );
 
   return (
     <div
@@ -39,13 +45,10 @@ function OrdersFeedItem({ order }: { order: TOrder }) {
       <h2 className="text text_type_main-medium pb-6">{order.name}</h2>
       <div className={styles.burger_details}>
         <div className={styles.ingredients_list}>
-          {order.ingredients.slice(0, 6).map((id) => (
-            <div key={id}>
+          {uniqueIngredients.map((ingredient) => (
+            <div key={ingredient._id}>
               <div className={styles.imageContainer}>
-                <img
-                  src={ingredientsById[id].image}
-                  alt={ingredientsById[id].name}
-                />
+                <img src={ingredient.image} alt={ingredient.name} />
               </div>
             </div>
           ))}

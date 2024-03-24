@@ -5,10 +5,10 @@ function OrdersInfo() {
   const orders = useSelector((x) => x.ws.lastOrdersMessage?.orders || []);
   const readyOrders = orders
     .filter((order) => order.status === "done")
-    .slice(0, 10);
+    .slice(0, 20);
   const inProgressOrders = orders
     .filter((order) => order.status === "pending")
-    .slice(0, 10);
+    .slice(0, 20);
   const totalOrdersAllTime = useSelector(
     (x) => x.ws.lastOrdersMessage?.total || 0
   );

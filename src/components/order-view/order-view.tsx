@@ -53,29 +53,31 @@ function OrderView({ order }: { order?: TOrder }) {
       </div>
       <div className={`pb-10 ${styles.ingredients}`}>
         <h2 className="text text_type_main-medium pb-6">Состав:</h2>
-        <ul className={`pr-6 ${styles.ingredients_list}`}>
-          {ingregientsGroupedByType.map((group) => (
-            <li
-              key={group.ingredient._id}
-              className={`pb-4 ${styles.ingredient}`}
-            >
-              <div className={`mr-4 ${styles.image_container}`}>
-                <img
-                  src={group.ingredient.image}
-                  alt={group.ingredient.name}
-                  className={styles.image}
-                />
-              </div>
-              <p className={`text text_type_main-small mr-4 ${styles.name}`}>
-                {group.ingredient.name}
-              </p>
-              <p className="text text_type_digits-default pr-2">
-                {group.count} x {group.ingredient.price}
-              </p>
-              <CurrencyIcon type="primary" />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.ingredients_list_container}>
+          <ul className={`pr-6 ${styles.ingredients_list}`}>
+            {ingregientsGroupedByType.map((group) => (
+              <li
+                key={group.ingredient._id}
+                className={`pb-4 ${styles.ingredient}`}
+              >
+                <div className={`mr-4 ${styles.image_container}`}>
+                  <img
+                    src={group.ingredient.image}
+                    alt={group.ingredient.name}
+                    className={styles.image}
+                  />
+                </div>
+                <p className={`text text_type_main-small mr-4 ${styles.name}`}>
+                  {group.ingredient.name}
+                </p>
+                <p className="text text_type_digits-default pr-2">
+                  {group.count} x {group.ingredient.price}
+                </p>
+                <CurrencyIcon type="primary" />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className={styles.bottom_area}>
         <p className="text text_type_main-small text_color_inactive">
@@ -92,8 +94,8 @@ function OrderView({ order }: { order?: TOrder }) {
 
 function formatStatus(status: string): string {
   switch (status) {
-    case "created":
-      return "Создан";
+    case "cancelled":
+      return "Отменён";
     case "pending":
       return "Готовится";
     case "done":
@@ -107,6 +109,8 @@ function getStatusClass(status: string): string {
   switch (status) {
     case "done":
       return styles.status_done;
+    case "cancelled":
+      return styles.status_cancelled;
     default:
       return "";
   }

@@ -16,6 +16,10 @@
   color: #00cccc;
 }
 
+.status_cancelled {
+  color: #ff0000;
+}
+
 .ingredients {
   display: flex;
   flex-direction: column;
@@ -29,6 +33,12 @@
   flex-direction: column;
   list-style: none;
 }
+
+.ingredients_list_container {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
 .ingredient {
   display: flex;
   justify-content: space-between;

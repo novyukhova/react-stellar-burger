@@ -17,7 +17,7 @@ function OrderModal() {
       onClose={() => {
         navigate(background || "/");
       }}
-      title={`#${order?.number}`}
+      title={order ? `#${order?.number}` : ""}
       smallTitle={true}
     >
       <OrderView order={order} />

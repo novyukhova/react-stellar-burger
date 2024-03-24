@@ -9,6 +9,10 @@
 .orderList {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 350px;
 }
 
 .finished_orders li {

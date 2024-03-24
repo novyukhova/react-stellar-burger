@@ -4,6 +4,7 @@ import { OrderView } from "../components/order-view/order-view";
 import { wsConnectionStart } from "../services/actions/ws";
 import { getAccessToken } from "../utils/api";
 import { useParams } from "react-router-dom";
+import styles from "./profile-order.module.css";
 
 function ProfileOrderPage() {
   const dispatch = useDispatch();
@@ -26,10 +27,10 @@ function ProfileOrderPage() {
   );
 
   return (
-    <div>
-      <h1>Profile Order Page</h1>
+    <section className={`${styles.page} pt-15`}>
+      <h2 className="text text_type_digits-default">#{order?.number}</h2>
       <OrderView order={order} />
-    </div>
+    </section>
   );
 }
 

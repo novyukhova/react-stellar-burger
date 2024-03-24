@@ -4,6 +4,7 @@ import { wsConnectionStart } from "../services/actions/ws";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useSelector } from "../services/hooks";
+import styles from "./feed-order.module.css";
 
 function FeedOrderPage() {
   const dispatch = useDispatch();
@@ -18,10 +19,12 @@ function FeedOrderPage() {
   );
 
   return (
-    <div>
-      <h1>Feed Order</h1>
-      <OrderView order={order} />
-    </div>
+    <>
+      <section className={`${styles.page} pt-15`}>
+        <h2 className="text text_type_digits-default">#{order?.number}</h2>
+        <OrderView order={order} />
+      </section>
+    </>
   );
 }
 export { FeedOrderPage };
