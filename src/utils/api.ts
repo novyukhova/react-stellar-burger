@@ -61,6 +61,13 @@ function setTokens(access: string, refresh: string) {
   accessToken = access;
 }
 
+function getAccessToken(): Promise<string> {
+  if (accessToken) {
+    return Promise.resolve(accessToken);
+  }
+  return refreshToken().then((res) => res.accessToken);
+}
+
 type TIngredient = {
   _id: string;
   name: string;
@@ -110,7 +117,7 @@ function createOrder(ingredients: string[]): Promise<TOrderResponse> {
   });
 }
 
-function sendResetEmail(email: string): Promise<TMessageResponse> {
+function sendResetEmail(email: string): Promise<TApiResponse> {
   return request(`${baseUrl}/api/password-reset`, {
     method: "POST",
     headers: headers,
@@ -120,14 +127,7 @@ function sendResetEmail(email: string): Promise<TMessageResponse> {
   });
 }
 
-type TMessageResponse = {
-  message: string;
-} & TApiResponse;
-
-function resetPassword(
-  password: string,
-  token: string
-): Promise<TMessageResponse> {
+function resetPassword(password: string, token: string): Promise<TApiResponse> {
   return request(`${baseUrl}/api/password-reset/reset`, {
     method: "POST",
     headers: headers,
@@ -188,6 +188,7 @@ function logout(): Promise<TApiResponse> {
 
 type TApiResponse = {
   success: boolean;
+  message?: string;
 };
 
 function refreshToken(): Promise<TTokenResponse> {
@@ -242,5 +243,6 @@ export {
   loadUser,
   saveUser,
   setTokens,
+  getAccessToken,
 };
-export type { TIngredient, TUser };
+export type { TIngredient, TUser, TOrder };

@@ -1,0 +1,10 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedContainer {
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 0 20px;
+}

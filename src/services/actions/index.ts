@@ -1,3 +1,4 @@
+import { HOME_OPENED, LOGIN_PAGE_OPENED } from "../constants/common";
 import { ingredientsLoaded, loadIngredients } from "./ingredients";
 import {
   orderAccepted,
@@ -8,16 +9,23 @@ import {
   createOrder,
 } from "./order";
 
-const HOME_OPENED = "HOME_OPENED";
-const LOGIN_PAGE_OPENED = "LOGIN_PAGE_OPENED";
+type THomeOpenedAction = {
+  type: typeof HOME_OPENED;
+};
 
-function homeOpened() {
+type TLoginPageOpenedAction = {
+  type: typeof LOGIN_PAGE_OPENED;
+};
+
+type TCommonActions = THomeOpenedAction | TLoginPageOpenedAction;
+
+function homeOpened(): THomeOpenedAction {
   return {
     type: HOME_OPENED,
   };
 }
 
-function loginPageOpened() {
+function loginPageOpened(): TLoginPageOpenedAction {
   return {
     type: LOGIN_PAGE_OPENED,
   };
@@ -34,6 +42,6 @@ export {
   createOrder,
   homeOpened,
   loginPageOpened,
-  HOME_OPENED,
-  LOGIN_PAGE_OPENED,
 };
+
+export type { TCommonActions };

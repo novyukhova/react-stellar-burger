@@ -6,17 +6,15 @@ import {
 import styles from "./login.module.css";
 import { useEffect, useState } from "react";
 import { sendLoginForm } from "../services/actions/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../services/hooks";
 import { Navigate, useLocation } from "react-router-dom";
 import { loginPageOpened } from "../services/actions";
-import { TCommonState } from "../utils/types";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { navigateHome, isAuthenticated } = useSelector(
-    (x: TCommonState) => x.auth
-  );
+  const navigateHome = useSelector((x) => x.auth.navigateHome);
+  const isAuthenticated = useSelector((x) => x.auth.isAuthenticated);
   const dispatch = useDispatch();
   const location = useLocation();
 

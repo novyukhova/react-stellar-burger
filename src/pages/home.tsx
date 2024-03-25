@@ -6,18 +6,15 @@ import { homeOpened } from "../services/actions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./home.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../services/hooks";
 import { Navigate } from "react-router-dom";
-import { TCommonState } from "../utils/types";
 
 function HomePage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(homeOpened());
   }, [dispatch]);
-  const navigateToLogin = useSelector(
-    (x: TCommonState) => x.auth.navigateToLogin
-  );
+  const navigateToLogin = useSelector((x) => x.auth.navigateToLogin);
   if (navigateToLogin) {
     return <Navigate to="/login" />;
   }

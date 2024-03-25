@@ -6,17 +6,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.css";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../services/hooks";
 import { sendRegisterForm } from "../services/actions/auth";
 import { Navigate } from "react-router-dom";
-import { TCommonState } from "../utils/types";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
-  const navigateHome = useSelector((x: TCommonState) => x.auth.navigateHome);
+  const navigateHome = useSelector((x) => x.auth.navigateHome);
   if (navigateHome) {
     return <Navigate to="/" />;
   }

@@ -5,14 +5,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../services/hooks";
 import { useState, useEffect } from "react";
 import { loadUser, saveUser } from "../services/actions/profile";
 import { ProfileMenu } from "../components/profile-menu/profile-menu";
-import { TCommonState } from "../utils/types";
 
 function ProfilePage() {
-  const user = useSelector((x: TCommonState) => x.profile.user);
+  const user = useSelector((x) => x.profile.user);
   const [name, setName] = useState(user?.name ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
   const [password, setPassword] = useState("");

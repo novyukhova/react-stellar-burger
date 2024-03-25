@@ -1,10 +1,21 @@
+import { TOrderAction } from "../actions/order";
 import {
   ORDER_ACCEPTED,
   ORDER_DETAILS_CLOSED,
   NEW_INGREDIENT_IN_ORDER,
   DELETED_FILLING_IN_ORDER,
   FILLING_MOVED,
-} from "../actions/order";
+} from "../constants/order";
+import { TIngredient } from "../../utils/api";
+import { TFilling } from "../types/data";
+
+type TOrderState = {
+  orderDetailsIsOpen: boolean;
+  bun: TIngredient | null;
+  fillings: TFilling[];
+  nextFillingId: number;
+  createdOrder: any;
+};
 
 const initialState = {
   orderDetailsIsOpen: false,
@@ -14,7 +25,7 @@ const initialState = {
   createdOrder: null,
 };
 
-function orderReducer(state = initialState, action) {
+function orderReducer(state: TOrderState = initialState, action: TOrderAction) {
   switch (action.type) {
     case ORDER_ACCEPTED:
       return {
