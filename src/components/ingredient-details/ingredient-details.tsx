@@ -9,7 +9,7 @@ function IngredientDetails({ ingredient }: { ingredient: TIngredient }) {
     { name: "Углеводы, г", value: ingredient.carbohydrates },
   ];
   return (
-    <div className={styles.details}>
+    <div className={`${styles.details} ingredient-details`}>
       <img
         src={ingredient.image_large}
         alt={ingredient.name}

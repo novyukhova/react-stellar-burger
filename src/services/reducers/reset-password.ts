@@ -4,6 +4,10 @@ import {
   RESET_PASSWORD_OPENED,
 } from "../constants/reset-password";
 
+type TResetPasswordState = {
+  resetEmailSent: boolean;
+};
+
 const initialState = {
   resetEmailSent: false,
 };
@@ -28,7 +32,4 @@ function resetPasswordReducer(
   }
 }
 
-export { resetPasswordReducer };
-type TResetPasswordState = {
-  resetEmailSent: boolean;
-};
+export { resetPasswordReducer, initialState };

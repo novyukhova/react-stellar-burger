@@ -25,4 +25,4 @@ function profileReducer(
   }
 }
 
-export { profileReducer };
+export { profileReducer, initialState };

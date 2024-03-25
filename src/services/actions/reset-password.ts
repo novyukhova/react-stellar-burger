@@ -83,6 +83,6 @@ function passwordResetError(message: string): TPasswordResetErrorAction {
   };
 }
 
-export { sendResetEmail, resetPassword, resetPasswordOpened };
+export { sendResetEmail, resetPassword, resetPasswordOpened, resetEmailSent };
 
 export type { TResetPasswordAction };

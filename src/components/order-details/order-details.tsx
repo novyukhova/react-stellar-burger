@@ -3,7 +3,7 @@ import styles from "./order-details.module.css";
 
 function OrderDetails(props: { id: number }) {
   return (
-    <div className={styles["order-details"]}>
+    <div className={`${styles["order-details"]} order-details`}>
       <h3 className="text text_type_digits-large pb-8">{props.id}</h3>
       <p className={`${styles.text} text text_type_main-medium pb-15`}>
         идентификатор заказа

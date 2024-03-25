@@ -106,7 +106,7 @@ function BurgerIngredient({
 
   return (
     <li
-      className={styles["ingredient-list__item"]}
+      className={`${styles["ingredient-list__item"]} constructor-ingredient`}
       onClick={() => {
         navigate(`/ingredients/${ingredient._id}`, {
           state: { background: location },

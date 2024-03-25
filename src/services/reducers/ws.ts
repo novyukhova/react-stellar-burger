@@ -18,8 +18,7 @@ const initialState: TWSState = {
   wsConnected: false,
   lastOrdersMessage: null,
 };
-
-export function wsReducer(
+function wsReducer(
   state: TWSState = initialState,
   action: TWSActions
 ): TWSState {
@@ -52,3 +51,5 @@ export function wsReducer(
       return state;
   }
 }
+
+export { wsReducer, initialState };

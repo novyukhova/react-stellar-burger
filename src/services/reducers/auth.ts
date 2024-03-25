@@ -5,8 +5,8 @@ import {
   LOGGED_OUT,
   NAVIGATE_TO_LOGIN,
 } from "../constants/auth";
-
-const refreshToken = getCookie("token");
+import { TAuthAction } from "../actions/auth";
+import { TCommonActions } from "../actions";
 
 type TAuthState = {
   isAuthenticated: boolean;
@@ -14,16 +14,21 @@ type TAuthState = {
   navigateToLogin: boolean;
 };
 
-const initialState = {
-  isAuthenticated: Boolean(refreshToken && refreshToken !== ""),
-  navigateHome: false,
-  navigateToLogin: false,
-};
+function getInitialState() {
+  const refreshToken = getCookie("token");
+
+  return {
+    isAuthenticated: Boolean(refreshToken && refreshToken !== ""),
+    navigateHome: false,
+    navigateToLogin: false,
+  };
+}
 
 function authReducer(
-  state: TAuthState = initialState,
-  action: { type: string }
+  state: TAuthState | undefined,
+  action: TAuthAction | TCommonActions
 ) {
+  state = state || getInitialState();
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
@@ -56,4 +61,4 @@ function authReducer(
   }
 }
 
-export { authReducer };
+export { authReducer, getInitialState };

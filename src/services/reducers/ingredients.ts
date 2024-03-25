@@ -24,4 +24,4 @@ function ingredientsReducer(
   }
 }
 
-export { ingredientsReducer };
+export { ingredientsReducer, initialState };

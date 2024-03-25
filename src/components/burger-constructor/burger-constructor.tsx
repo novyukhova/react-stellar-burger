@@ -58,7 +58,7 @@ function BurgerConstructor() {
   if (!bun) {
     return (
       <div
-        className={`${styles["ingredient-list"]} pt-25 pl-4 pb-25 text text_type_main-default`}
+        className={`${styles["ingredient-list"]} pt-25 pl-4 pb-25 text text_type_main-default constructor-ingredient-list`}
         ref={dropTarget}
       >
         Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа
@@ -69,7 +69,7 @@ function BurgerConstructor() {
   return (
     <>
       <ul
-        className={`${styles["ingredient-list"]} pt-25 pl-4 pb-10`}
+        className={`${styles["ingredient-list"]} pt-25 pl-4 pb-10 constructor-ingredient-list`}
         ref={dropTarget}
       >
         <li className="pl-8 pl-4 pr-4">
@@ -107,6 +107,7 @@ function BurgerConstructor() {
           htmlType="button"
           type="primary"
           size="large"
+          extraClass="order-button"
           onClick={() => dispatch(createOrder(ingredientsId))}
         >
           Оформить заказ
