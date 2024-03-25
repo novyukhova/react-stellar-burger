@@ -1,16 +1,15 @@
-import { authReducer } from "./auth";
+import { authReducer, getInitialState } from "./auth";
 
 jest.mock("../../utils/cookie", () => ({
   getCookie: jest.fn(() => ""),
 }));
 import { getCookie } from "../../utils/cookie";
-import { login } from "../../utils/api";
 import { loggedOut, loginSuccess, navigateToLogin } from "../actions/auth";
 import { homeOpened, loginPageOpened } from "../actions";
 
-describe("authReducer", () => {
-  it("should return the initial state", () => {
-    expect(authReducer(undefined, {} as any)).toEqual({
+describe("getInitialState", () => {
+  it("should return initial state", () => {
+    expect(getInitialState()).toEqual({
       isAuthenticated: false,
       navigateHome: false,
       navigateToLogin: false,
@@ -19,95 +18,68 @@ describe("authReducer", () => {
 
   it("should return isAuthenticated true if has token", () => {
     (getCookie as jest.Mock).mockReturnValueOnce("token");
-
-    expect(authReducer(undefined, {} as any)).toEqual({
+    expect(getInitialState()).toEqual({
       isAuthenticated: true,
       navigateHome: false,
       navigateToLogin: false,
     });
   });
+});
+
+describe("authReducer", () => {
+  const initialState = getInitialState();
+
+  it("should return the initial state", () => {
+    expect(authReducer(undefined, {} as any)).toEqual(initialState);
+  });
 
   it("should set isAuthenticated on loginSuccess", () => {
-    expect(
-      authReducer(
-        {
-          isAuthenticated: false,
-          navigateHome: false,
-          navigateToLogin: false,
-        },
-        loginSuccess()
-      )
-    ).toEqual({
+    expect(authReducer(initialState, loginSuccess())).toEqual({
+      ...initialState,
       isAuthenticated: true,
       navigateHome: true,
-      navigateToLogin: false,
     });
   });
 
   it("should reset navigateHome on homeOpened", () => {
-    expect(
-      authReducer(
-        {
-          isAuthenticated: true,
-          navigateHome: true,
-          navigateToLogin: false,
-        },
-        homeOpened()
-      )
-    ).toEqual({
+    const stateBefore = {
+      ...initialState,
       isAuthenticated: true,
+      navigateHome: true,
+    };
+
+    expect(authReducer(stateBefore, homeOpened())).toEqual({
+      ...stateBefore,
       navigateHome: false,
-      navigateToLogin: false,
     });
   });
 
   it("should set isAuthenticated false on loggedOut", () => {
-    expect(
-      authReducer(
-        {
-          isAuthenticated: true,
-          navigateHome: false,
-          navigateToLogin: false,
-        },
-        loggedOut()
-      )
-    ).toEqual({
-      isAuthenticated: false,
+    const stateBefore = {
+      isAuthenticated: true,
       navigateHome: false,
       navigateToLogin: false,
+    };
+    expect(authReducer(stateBefore, loggedOut())).toEqual({
+      ...stateBefore,
+      isAuthenticated: false,
     });
   });
 
   it("should reset navigateToLogin on loginPageOpened", () => {
-    expect(
-      authReducer(
-        {
-          isAuthenticated: false,
-          navigateHome: false,
-          navigateToLogin: true,
-        },
-        loginPageOpened()
-      )
-    ).toEqual({
-      isAuthenticated: false,
-      navigateHome: false,
+    const stateBefore = {
+      ...initialState,
+      navigateToLogin: true,
+    };
+    expect(authReducer(stateBefore, loginPageOpened())).toEqual({
+      ...stateBefore,
       navigateToLogin: false,
     });
   });
 
   it("should set navigateToLogin on navigateToLogin", () => {
-    expect(
-      authReducer(
-        {
-          isAuthenticated: false,
-          navigateHome: false,
-          navigateToLogin: false,
-        },
-        navigateToLogin()
-      )
-    ).toEqual({
-      isAuthenticated: false,
-      navigateHome: false,
+    expect(authReducer(initialState, navigateToLogin())).toEqual({
+      ...initialState,
       navigateToLogin: true,
     });
   });

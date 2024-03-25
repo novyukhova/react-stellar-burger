@@ -1,35 +1,36 @@
 import { ingredientsLoaded } from "../actions";
-import { ingredientsReducer } from "./ingredients";
+import { ingredientsReducer, initialState } from "./ingredients";
 
-describe("ingredientsReducer", () => {
-  it("should return the initial state", () => {
-    expect(ingredientsReducer(undefined, {} as any)).toEqual({
+const ingredient = {
+  _id: "1",
+  name: "Краторная булка",
+  type: "bun",
+  proteins: 10,
+  fat: 20,
+  carbohydrates: 30,
+  calories: 40,
+  price: 500,
+  image: "image",
+  image_mobile: "image_mobile",
+  image_large: "image_large",
+};
+
+describe("initialState", () => {
+  it("should have no ingredients", () => {
+    expect(initialState).toEqual({
       allIngredients: [],
     });
   });
+});
 
-  it("should set allIngredients on INGREDIENTS_LOADED", () => {
-    const ingredient = {
-      _id: "1",
-      name: "Краторная булка",
-      type: "bun",
-      proteins: 10,
-      fat: 20,
-      carbohydrates: 30,
-      calories: 40,
-      price: 500,
-      image: "image",
-      image_mobile: "image_mobile",
-      image_large: "image_large",
-    };
+describe("ingredientsReducer", () => {
+  it("should return the initial state", () => {
+    expect(ingredientsReducer(undefined, {} as any)).toEqual(initialState);
+  });
 
+  it("should set allIngredients on ingredientsLoaded", () => {
     expect(
-      ingredientsReducer(
-        {
-          allIngredients: [],
-        },
-        ingredientsLoaded([ingredient])
-      )
+      ingredientsReducer(initialState, ingredientsLoaded([ingredient]))
     ).toEqual({
       allIngredients: [ingredient],
     });

@@ -4,28 +4,17 @@ import {
   wsConnectionSuccess,
   wsGetMessage,
 } from "../actions/ws";
-import { wsReducer } from "./ws";
+import { wsReducer, initialState } from "./ws";
 
 describe("wsReducer", () => {
   it("should return the initial state", () => {
-    expect(wsReducer(undefined, {} as any)).toEqual({
-      wsConnected: false,
-      lastOrdersMessage: null,
-    });
+    expect(wsReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   it("should set wsConnected true on wsConnectionSuccess", () => {
-    expect(
-      wsReducer(
-        {
-          wsConnected: false,
-          lastOrdersMessage: null,
-        },
-        wsConnectionSuccess()
-      )
-    ).toEqual({
+    expect(wsReducer(initialState, wsConnectionSuccess())).toEqual({
+      ...initialState,
       wsConnected: true,
-      lastOrdersMessage: null,
     });
   });
 
@@ -33,14 +22,14 @@ describe("wsReducer", () => {
     expect(
       wsReducer(
         {
+          ...initialState,
           wsConnected: true,
-          lastOrdersMessage: null,
         },
         wsConnectionError()
       )
     ).toEqual({
+      ...initialState,
       wsConnected: false,
-      lastOrdersMessage: null,
     });
   });
 
@@ -48,14 +37,14 @@ describe("wsReducer", () => {
     expect(
       wsReducer(
         {
+          ...initialState,
           wsConnected: true,
-          lastOrdersMessage: null,
         },
         wsConnectionClosed()
       )
     ).toEqual({
+      ...initialState,
       wsConnected: false,
-      lastOrdersMessage: null,
     });
   });
 
@@ -65,12 +54,14 @@ describe("wsReducer", () => {
     expect(
       wsReducer(
         {
+          ...initialState,
           wsConnected: true,
           lastOrdersMessage: null,
         },
         wsGetMessage(payload)
       )
     ).toEqual({
+      ...initialState,
       wsConnected: true,
       lastOrdersMessage: { message: "message" },
     });

@@ -16,7 +16,6 @@ import { IngredientPage } from "../../pages/ingredients";
 import { NotFoundPage } from "../../pages/404";
 import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { OrdersPage } from "../../pages/orders";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadIngredients } from "../../services/actions";
 import { IngredientModal } from "../ingredient-modal/ingredient-modal";
@@ -24,6 +23,7 @@ import { FeedPage } from "../../pages/feed";
 import { OrderModal } from "../order-modal/order-modal";
 import { FeedOrderPage } from "../../pages/feed-order";
 import { ProfileOrderPage } from "../../pages/profile-order";
+import { useDispatch } from "../../services/hooks";
 
 function App() {
   const dispatch = useDispatch();

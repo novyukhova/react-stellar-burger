@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware } from "redux";
 import { rootReducer } from "./reducers";
 import thunk from "redux-thunk";
-import { composeEnhancers } from "../compose";
 import { socketMiddleware } from "./middleware/socketMiddleware";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
-const enhancer = composeEnhancers(
+const enhancer = composeWithDevTools(
   applyMiddleware(thunk),
   applyMiddleware(socketMiddleware())
 );

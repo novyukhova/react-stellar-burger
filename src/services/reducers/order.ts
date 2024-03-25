@@ -32,6 +32,8 @@ function orderReducer(state: TOrderState = initialState, action: TOrderAction) {
         ...state,
         orderDetailsIsOpen: true,
         createdOrder: action.order,
+        fillings: [],
+        nextFillingId: 1,
       };
     case ORDER_DETAILS_CLOSED:
       return {
@@ -92,4 +94,4 @@ function orderReducer(state: TOrderState = initialState, action: TOrderAction) {
   }
 }
 
-export { orderReducer };
+export { orderReducer, initialState };

@@ -32,4 +32,4 @@ function resetPasswordReducer(
   }
 }
 
-export { resetPasswordReducer };
+export { resetPasswordReducer, initialState };

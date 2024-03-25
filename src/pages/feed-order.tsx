@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { OrderView } from "../components/order-view/order-view";
 import { wsConnectionEnd, wsConnectionStart } from "../services/actions/ws";
-import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelector } from "../services/hooks";
+import { useDispatch, useSelector } from "../services/hooks";
 import styles from "./feed-order.module.css";
 
 function FeedOrderPage() {

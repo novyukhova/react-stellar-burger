@@ -5,7 +5,35 @@ import {
   orderAccepted,
   orderDetailsClosed,
 } from "../actions";
-import { orderReducer } from "./order";
+import { orderReducer, initialState } from "./order";
+
+const bun = {
+  _id: "1",
+  name: "Краторная булка",
+  type: "bun",
+  proteins: 10,
+  fat: 20,
+  carbohydrates: 30,
+  calories: 40,
+  price: 500,
+  image: "image",
+  image_mobile: "image_mobile",
+  image_large: "image_large",
+};
+
+const fillingIngredient = {
+  _id: "2",
+  name: "Соус",
+  type: "filling",
+  proteins: 10,
+  fat: 20,
+  carbohydrates: 30,
+  calories: 40,
+  price: 500,
+  image: "image",
+  image_mobile: "image_mobile",
+  image_large: "image_large",
+};
 
 describe("orderReducer", () => {
   const order = {
@@ -18,33 +46,35 @@ describe("orderReducer", () => {
   };
 
   it("should return the initial state", () => {
-    expect(orderReducer(undefined, {} as any)).toEqual({
-      orderDetailsIsOpen: false,
-      bun: null,
-      fillings: [],
-      nextFillingId: 1,
-      createdOrder: null,
-    });
+    expect(orderReducer(undefined, {} as any)).toEqual(initialState);
   });
 
   it("should set orderDetailsIsOpen true and currentOrder to current order on orderAccepted", () => {
+    expect(orderReducer(initialState, orderAccepted(order))).toEqual({
+      ...initialState,
+      orderDetailsIsOpen: true,
+      createdOrder: order,
+    });
+  });
+
+  it("should remove fillings on orderAccepted", () => {
     expect(
       orderReducer(
         {
-          orderDetailsIsOpen: false,
-          bun: null,
-          fillings: [],
-          nextFillingId: 1,
-          createdOrder: null,
+          ...initialState,
+          bun: bun,
+          fillings: [{ id: 1, ingredient: fillingIngredient }],
+          nextFillingId: 2,
         },
         orderAccepted(order)
       )
     ).toEqual({
+      ...initialState,
       orderDetailsIsOpen: true,
-      bun: null,
+      createdOrder: order,
+      bun: bun,
       fillings: [],
       nextFillingId: 1,
-      createdOrder: order,
     });
   });
 
@@ -52,90 +82,34 @@ describe("orderReducer", () => {
     expect(
       orderReducer(
         {
+          ...initialState,
           orderDetailsIsOpen: true,
-          bun: null,
-          fillings: [],
-          nextFillingId: 1,
           createdOrder: order,
         },
         orderDetailsClosed()
       )
     ).toEqual({
+      ...initialState,
       orderDetailsIsOpen: false,
-      bun: null,
-      fillings: [],
-      nextFillingId: 1,
       createdOrder: order,
     });
   });
 
   it("should set bun on newIngredientInOrder if ingredient is bun", () => {
-    const bun = {
-      _id: "1",
-      name: "Краторная булка",
-      type: "bun",
-      proteins: 10,
-      fat: 20,
-      carbohydrates: 30,
-      calories: 40,
-      price: 500,
-      image: "image",
-      image_mobile: "image_mobile",
-      image_large: "image_large",
-    };
-
-    expect(
-      orderReducer(
-        {
-          orderDetailsIsOpen: false,
-          bun: null,
-          fillings: [],
-          nextFillingId: 1,
-          createdOrder: null,
-        },
-        newIngredientInOrder(bun)
-      )
-    ).toEqual({
-      orderDetailsIsOpen: false,
+    expect(orderReducer(initialState, newIngredientInOrder(bun))).toEqual({
+      ...initialState,
       bun: bun,
-      fillings: [],
-      nextFillingId: 1,
-      createdOrder: null,
     });
   });
 
-  const fillingIngredient = {
-    _id: "2",
-    name: "Соус",
-    type: "filling",
-    proteins: 10,
-    fat: 20,
-    carbohydrates: 30,
-    calories: 40,
-    price: 500,
-    image: "image",
-    image_mobile: "image_mobile",
-    image_large: "image_large",
-  };
-
   it("should add new filling on newIngredientInOrder if ingredient is not bun", () => {
     expect(
-      orderReducer(
-        {
-          orderDetailsIsOpen: false,
-          bun: null,
-          fillings: [],
-          nextFillingId: 1,
-          createdOrder: null,
-        },
-        newIngredientInOrder(fillingIngredient)
-      )
+      orderReducer(initialState, newIngredientInOrder(fillingIngredient))
     ).toEqual({
-      orderDetailsIsOpen: false,
+      ...initialState,
       bun: null,
       fillings: [{ id: 1, ingredient: fillingIngredient }],
       nextFillingId: 2,
-      createdOrder: null,
     });
   });
 
@@ -143,11 +117,9 @@ describe("orderReducer", () => {
     expect(
       orderReducer(
         {
-          orderDetailsIsOpen: false,
-          bun: null,
+          ...initialState,
           fillings: [{ id: 1, ingredient: fillingIngredient }],
           nextFillingId: 2,
-          createdOrder: null,
         },
         deletedFillingInOrder({
           id: 1,
@@ -155,40 +127,28 @@ describe("orderReducer", () => {
         })
       )
     ).toEqual({
-      orderDetailsIsOpen: false,
-      bun: null,
+      ...initialState,
       fillings: [],
       nextFillingId: 2,
-      createdOrder: null,
     });
   });
 
   it("should move filling on fillingMoved", () => {
     const anotherFillingIngredient = {
+      ...fillingIngredient,
       _id: "3",
-      name: "Соус",
-      type: "filling",
-      proteins: 10,
-      fat: 20,
-      carbohydrates: 30,
-      calories: 40,
-      price: 500,
-      image: "image",
-      image_mobile: "image_mobile",
-      image_large: "image_large",
+      name: "Соус 2",
     };
 
     expect(
       orderReducer(
         {
-          orderDetailsIsOpen: false,
-          bun: null,
+          ...initialState,
           fillings: [
             { id: 1, ingredient: fillingIngredient },
             { id: 2, ingredient: anotherFillingIngredient },
           ],
           nextFillingId: 3,
-          createdOrder: null,
         },
         fillingMoved(
           {
@@ -199,14 +159,12 @@ describe("orderReducer", () => {
         )
       )
     ).toEqual({
-      orderDetailsIsOpen: false,
-      bun: null,
+      ...initialState,
       fillings: [
         { id: 2, ingredient: anotherFillingIngredient },
         { id: 1, ingredient: fillingIngredient },
       ],
       nextFillingId: 3,
-      createdOrder: null,
     });
   });
 });

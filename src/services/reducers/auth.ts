@@ -14,17 +14,21 @@ type TAuthState = {
   navigateToLogin: boolean;
 };
 
-function authReducer(
-  state: TAuthState | undefined,
-  action: TAuthAction | TCommonActions
-) {
+function getInitialState() {
   const refreshToken = getCookie("token");
 
-  state = state || {
+  return {
     isAuthenticated: Boolean(refreshToken && refreshToken !== ""),
     navigateHome: false,
     navigateToLogin: false,
   };
+}
+
+function authReducer(
+  state: TAuthState | undefined,
+  action: TAuthAction | TCommonActions
+) {
+  state = state || getInitialState();
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
@@ -57,4 +61,4 @@ function authReducer(
   }
 }
 
-export { authReducer };
+export { authReducer, getInitialState };
